@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
     // Authviewmodel lives here for navigation
     @State private var authViewModel = AuthViewModel()
+    @State private var userViewModel = UserViewModel()
     
     var body: some View {
         NavigationStack {
@@ -32,6 +33,7 @@ struct ContentView: View {
             .gradientBackground()
         }
         .environment(authViewModel)
+        .environment(userViewModel)
         
     }
 }
