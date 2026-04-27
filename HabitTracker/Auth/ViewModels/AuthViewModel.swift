@@ -21,7 +21,7 @@ class AuthViewModel {
     private let authRepo = AuthRepositoryImpl()
     
     init() {
-        authState = authRepo.isUserSignedIn() ? .loggedIn : .guest
+        authState = authRepo.isUserSignedIn() ? .loggedIn : .loggedOut
     }
     
     func login() async {
@@ -37,8 +37,12 @@ class AuthViewModel {
             } catch {
                 isLoading = false
                 errorMessage = error.localizedDescription
-                authState = .guest
+                authState = .loggedOut
             }
+    }
+    
+    func continueAsGuest() {
+        authState = .guest
     }
     
     
