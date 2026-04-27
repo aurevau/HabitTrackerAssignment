@@ -16,7 +16,13 @@ struct LoginView: View {
         @Bindable var authVm = authViewModel
         ZStack {
             VStack(spacing: 20) {
+                
                 Spacer()
+                Image("loggain")
+                    .resizable()
+                    .scaledToFit()
+                    .font(.system(size: 60))
+                
                 TextField("", text: $authVm.email,
                     prompt: Text("Email").foregroundColor(.gray))
                     .autocapitalization(.none)

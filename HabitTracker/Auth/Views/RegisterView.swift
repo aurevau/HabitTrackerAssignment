@@ -16,7 +16,12 @@ struct RegisterView: View {
         ZStack {
             VStack(spacing: 20) {
                 Spacer()
-                
+                Image("skapakonto")
+                    .resizable()
+                    .scaledToFit()
+                    .font(.system(size: 60))
+              
+            
                 TextField("", text: $authVm.username,
                 prompt: Text("Username ").foregroundColor(.gray))
                     .autocapitalization(.none)
