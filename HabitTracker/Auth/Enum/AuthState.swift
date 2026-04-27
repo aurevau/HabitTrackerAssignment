@@ -11,5 +11,4 @@ enum AuthState {
     case loggedIn
     case loggedOut
     case guest
-    case loading
 }
