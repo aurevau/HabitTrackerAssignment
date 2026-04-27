@@ -66,13 +66,15 @@ struct RegisterView: View {
                 }
                 
                 Spacer()
-                NavigationLink {
-                    LoginView()
-                } label: {
-                    Text("Redan registrerad?")
-                }
-                .modifier(OutlineButtonModifier())
+           
+                
             }
+        }
+        .onAppear {
+            authViewModel.errorMessage = ""
+        }
+        .onDisappear {
+            authViewModel.errorMessage = ""
         }
         .gradientBackground()
     }

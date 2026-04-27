@@ -25,6 +25,7 @@ class AuthViewModel {
     
     init() {
         authState = authRepo.isUserSignedIn() ? .loggedIn : .loggedOut
+      
     }
     
     func login()  {
@@ -54,7 +55,6 @@ class AuthViewModel {
         }
         
         Task {
-            errorMessage = ""
             isLoading = true
             do {
                 let result = try await authRepo.register(email: email, password: password)
@@ -74,6 +74,7 @@ class AuthViewModel {
     }
     
     func validateRegistration() -> Bool {
+        errorMessage = ""
         guard !email.trimmingCharacters(in: .whitespaces).isEmpty, !confirmEmail.trimmingCharacters(in: .whitespaces).isEmpty,
               !password.trimmingCharacters(in: .whitespaces).isEmpty, !confirmPassword.trimmingCharacters(in: .whitespaces).isEmpty, !username.trimmingCharacters(in: .whitespaces).isEmpty else {
             errorMessage = "Vänligen fyll i alla fält!"
