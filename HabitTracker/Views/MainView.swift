@@ -8,11 +8,42 @@
 import SwiftUI
 
 struct MainView: View {
+    
+    @Environment(AuthViewModel.self) private var authViewModel
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        
+        ZStack {
+            VStack {
+                Spacer()
+                Text("Hej")
+                    .font(.largeTitle)
+                    .foregroundStyle(.primaryText)
+                Text(authViewModel.authState.rawValue)
+                    .foregroundStyle(.primaryText)
+                
+                
+                Spacer()
+                
+                Button {
+                    authViewModel.logOut()
+                } label: {
+                    if authViewModel.isLoading {
+                        ProgressView()
+                    } else {
+                        Text("Logga ut")
+                    }
+                }
+                .modifier(ButtonModifier())
+            }
+        }
+            .gradientBackground()
+        
+        
     }
 }
 
 #Preview {
     MainView()
+        .environment(AuthViewModel())
 }
