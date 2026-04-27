@@ -6,3 +6,14 @@
 //
 
 import Foundation
+import Observation
+
+@Observable
+class UserViewModel {
+    
+    private var userRepo = UserRepositoryImpl()
+    
+    var errorMessage = ""
+    
+
+}
