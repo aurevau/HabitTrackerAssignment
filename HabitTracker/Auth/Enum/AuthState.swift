@@ -7,8 +7,8 @@
 
 import Foundation
 
-enum AuthState {
-    case loggedIn
-    case loggedOut
-    case guest
+enum AuthState: String {
+    case loggedIn = "Inloggad"
+    case loggedOut = "Utloggad"
+    case guest = "Guest"
 }
