@@ -43,6 +43,8 @@ struct LoginView: View {
                 } label: {
                     if authViewModel.isLoading {
                         ProgressView()
+                            .tint(.primaryText)
+                            .modifier(ButtonModifier())
                     } else {
                         Text("Logga in")
                             .modifier(ButtonModifier())

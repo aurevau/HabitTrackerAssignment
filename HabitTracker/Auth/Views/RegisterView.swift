@@ -69,6 +69,8 @@ struct RegisterView: View {
                 } label: {
                     if authViewModel.isLoading {
                         ProgressView()
+                            .tint(.primaryText)
+                            .modifier(ButtonModifier())
                     } else {
                         Text("Skapa konto")
                             .modifier(ButtonModifier())
