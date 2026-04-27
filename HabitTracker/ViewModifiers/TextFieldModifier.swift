@@ -15,7 +15,7 @@ struct TextFieldModifier: ViewModifier {
             .padding(.vertical, 10)
             .frame(width: 352, height: 50)
             .font(.subheadline)
-            .background(Color(.systemGray6))
+            .background(Color.theme.bgLight)
             .cornerRadius(10)
             
     }

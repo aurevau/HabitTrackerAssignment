@@ -17,15 +17,20 @@ struct LoginView: View {
         ZStack {
             VStack(spacing: 20) {
                 Spacer()
-                TextField("Email", text: $authVm.email)
+                TextField("", text: $authVm.email,
+                    prompt: Text("Email").foregroundColor(.gray))
                     .autocapitalization(.none)
                     .autocorrectionDisabled()
                     .modifier(TextFieldModifier())
+                    .foregroundStyle(.primaryText)
                 
-                SecureField("Lösenord", text: $authVm.password)
+                SecureField("", text: $authVm.password,
+                    prompt: Text("Lösenord").foregroundColor(.gray))
                     .autocorrectionDisabled()
                     .autocapitalization(.none)
+                    .foregroundStyle(.primaryText)
                     .modifier(TextFieldModifier())
+                   
                 
                 if !authViewModel.errorMessage.isEmpty {
                     Text(authViewModel.errorMessage)
@@ -44,6 +49,8 @@ struct LoginView: View {
                     }
                 }
                 
+                Spacer()
+                
                 Button {
                     showRegisterSheet = true
                         
@@ -51,9 +58,9 @@ struct LoginView: View {
                     Text("Registrera dig")
                         
                 }
-                .modifier(ButtonModifierReversedColors())
+                .modifier(OutlineButtonModifierReversedColors())
                 
-                Spacer()
+               
                 Button {
                     authViewModel.continueAsGuest()
                 } label: {

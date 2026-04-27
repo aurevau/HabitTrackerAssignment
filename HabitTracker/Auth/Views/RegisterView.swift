@@ -17,30 +17,40 @@ struct RegisterView: View {
             VStack(spacing: 20) {
                 Spacer()
                 
-                TextField("Username", text: $authVm.username)
+                TextField("", text: $authVm.username,
+                prompt: Text("Username ").foregroundColor(.gray))
                     .autocapitalization(.none)
                     .autocorrectionDisabled()
                     .modifier(TextFieldModifier())
+                    .foregroundStyle(.primaryText)
                 
-                TextField("Email", text: $authVm.email)
+                TextField("", text: $authVm.email,
+                prompt: Text("Email").foregroundColor(.gray))
                     .autocapitalization(.none)
                     .autocorrectionDisabled()
                     .modifier(TextFieldModifier())
+                    .foregroundStyle(.primaryText)
                 
-                TextField("Bekräfta Email", text: $authVm.confirmEmail)
+                TextField("", text: $authVm.confirmEmail,
+                    prompt: Text("Bekräfta Email").foregroundColor(.gray))
                     .autocapitalization(.none)
                     .autocorrectionDisabled()
                     .modifier(TextFieldModifier())
+                    .foregroundStyle(.primaryText)
                 
-                SecureField("Lösenord", text: $authVm.password)
+                SecureField("Lösenord", text: $authVm.password,
+                    prompt: Text("Lösenord").foregroundColor(.gray))
                     .autocorrectionDisabled()
                     .autocapitalization(.none)
                     .modifier(TextFieldModifier())
+                    .foregroundStyle(.primaryText)
                 
-                SecureField("Bekräfta Lösenord", text: $authVm.confirmPassword)
+                SecureField("", text: $authVm.confirmPassword,
+                            prompt: Text("Bekräfta Lösenord").foregroundColor(.gray))
                     .autocorrectionDisabled()
                     .autocapitalization(.none)
                     .modifier(TextFieldModifier())
+                    .foregroundStyle(.primaryText)
                 
                 if !authViewModel.errorMessage.isEmpty {
                     Text(authViewModel.errorMessage)

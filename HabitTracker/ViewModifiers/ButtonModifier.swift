@@ -56,3 +56,28 @@ struct OutlineButtonModifier: ViewModifier {
             )
     }
 }
+
+struct OutlineButtonModifierReversedColors: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .font(.subheadline)
+            .fontWeight(.semibold)
+            .foregroundColor(Color.theme.primaryText)
+            .frame(width: 352, height: 50)
+            .background(
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(
+                        LinearGradient(
+                            colors: [
+                                Color.theme.cardGradientEnd,
+                                Color.theme.cardGradientMid,
+                                Color.theme.cardGradientStart
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        ),
+                        lineWidth: 2
+                    )
+            )
+    }
+}
