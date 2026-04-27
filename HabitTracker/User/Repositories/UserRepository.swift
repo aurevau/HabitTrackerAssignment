@@ -6,3 +6,8 @@
 //
 
 import Foundation
+
+protocol UserRepository {
+   
+    func saveUserToDatabase(username: String, email: String) async throws
+}
