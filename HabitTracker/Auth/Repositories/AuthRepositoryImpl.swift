@@ -5,10 +5,9 @@
 //  Created by Aurelie Vaudan APP25 on 2026-04-27.
 //
 
-import Observation
+import Foundation
 import FirebaseAuth
 
-@Observable
 class AuthRepositoryImpl: AuthRepository {
     func register(email: String, password: String) async throws -> FirebaseAuth.AuthDataResult {
         try await Auth.auth().createUser(withEmail: email, password: password)
