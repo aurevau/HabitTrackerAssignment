@@ -19,7 +19,7 @@ struct ColorTheme {
     let bgLight = Color("BackgroundLight")
     let cardGradientStart = Color("CardGradientStart")
     let cardGradientMid = Color("CardGradientMid")
-    let blueColor = Color("Blue")
+    let blueColor = Color("MyBlueColor")
     let buttonBackground = Color("ButtonBackground")
     let buttonHover = Color("ButtonHover")
     let cardBackground = Color("CardBackground")
