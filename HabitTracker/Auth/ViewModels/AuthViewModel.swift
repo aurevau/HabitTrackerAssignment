@@ -6,6 +6,7 @@
 //
 
 import Observation
+import Foundation
 
 @Observable
 class AuthViewModel {
@@ -21,6 +22,36 @@ class AuthViewModel {
     
     init() {
         authState = authRepo.isUserSignedIn() ? .loggedIn : .guest
+    }
+    
+    func login() async {
+        guard validateLogin() else {
+            return
+        }
+        
+            isLoading = true
+            do {
+                try await authRepo.login(email: email, password: password)
+                authState = .loggedIn
+                
+            } catch {
+                isLoading = false
+                errorMessage = error.localizedDescription
+                authState = .guest
+            }
+    }
+    
+    
+    private func validateLogin() -> Bool {
+        errorMessage = ""
+        
+        guard !email.trimmingCharacters(in: .whitespaces).isEmpty,
+        !password.trimmingCharacters(in: .whitespaces).isEmpty else {
+            errorMessage = "Please fill in all fields"
+            return false
+        }
+        
+        return true
     }
     
     
