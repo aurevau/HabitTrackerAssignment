@@ -8,20 +8,35 @@
 import SwiftUI
 
 struct ContentView: View {
+    // Authviewmodel lives here for navigation
+    @State private var authViewModel = AuthViewModel()
+    
     var body: some View {
         NavigationStack {
             ZStack {
-              
+                VStack {
+                    switch authViewModel.authState {
+                    case .loggedIn:
+                        MainView()
+                    case .loggedOut:
+                        LoginView()
+                    case .guest:
+                        MainView()
+                    }
+                }
+               
                 
                 
                
             }
             .gradientBackground()
         }
+        .environment(authViewModel)
         
     }
 }
 
 #Preview {
     ContentView()
+        .environment(AuthViewModel())
 }
