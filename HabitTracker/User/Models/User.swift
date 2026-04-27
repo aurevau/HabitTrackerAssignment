@@ -9,9 +9,9 @@ import Foundation
 
 
 
-struct User: Identifiable {
-    let id = UUID()
-    var name: String
+struct User: Identifiable, Codable {
+    let id: String
+    var username: String
     var email: String
     let joined: TimeInterval
 }
