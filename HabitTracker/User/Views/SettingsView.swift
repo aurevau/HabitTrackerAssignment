@@ -8,11 +8,30 @@
 import SwiftUI
 
 struct SettingsView: View {
+    @Environment(AuthViewModel.self) private var authViewModel
+    @Environment(\.dismiss) private var dismiss
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ZStack {
+            VStack {
+                Button {
+                    authViewModel.logOut()
+                    dismiss() 
+                } label: {
+                    if authViewModel.isLoading {
+                        ProgressView()
+                    } else {
+                        Text("Logga ut")
+                    }
+                }
+                .modifier(ButtonModifier())
+            }
+        }
+        .gradientBackground()
+        
     }
 }
 
 #Preview {
     SettingsView()
+        .environment(AuthViewModel())
 }
