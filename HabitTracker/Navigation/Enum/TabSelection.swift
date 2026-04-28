@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+enum TabSelection {
+    case home
+    case profile
+  
+}
