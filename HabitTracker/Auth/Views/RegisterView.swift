@@ -9,6 +9,8 @@ import SwiftUI
 
 struct RegisterView: View {
     @Environment(AuthViewModel.self) private var authViewModel
+    @Environment(UserViewModel.self) private var userViewModel
+    
     var body: some View {
         
         @Bindable var authVm = authViewModel
@@ -71,6 +73,8 @@ struct RegisterView: View {
                 
                 Button {
                     authViewModel.register()
+                    
+                  
                 } label: {
                     if authViewModel.isLoading {
                         ProgressView()

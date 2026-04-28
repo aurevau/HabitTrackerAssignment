@@ -7,6 +7,7 @@
 
 import Observation
 import Foundation
+import FirebaseAuth
 
 @Observable
 class AuthViewModel {
@@ -20,6 +21,10 @@ class AuthViewModel {
     
     var isLoading: Bool = false
     var registerSuccess: Bool = false
+    
+    var currentUserId = ""
+    
+    var userViewModel: UserViewModel?
     
     private let authRepo = AuthRepositoryImpl()
     
@@ -57,14 +62,12 @@ class AuthViewModel {
         Task {
             isLoading = true
             do {
-                let result = try await authRepo.register(email: email, password: password)
+                let result = try await authRepo.register(email: email, password: password, username: username)
+                          currentUserId = result.user.uid
+                          authState = .loggedIn
+                          registerSuccess = true
                 
-                authState = .loggedIn
-                registerSuccess = true
-                
-                // Save user to firebase
             } catch {
-                isLoading = false
                 errorMessage = error.localizedDescription
                 registerSuccess = false
             }
@@ -132,6 +135,8 @@ class AuthViewModel {
         
         return true
     }
+    
+    
     
     
 }

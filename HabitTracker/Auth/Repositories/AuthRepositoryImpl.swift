@@ -9,8 +9,13 @@ import Foundation
 import FirebaseAuth
 
 class AuthRepositoryImpl: AuthRepository {
-    func register(email: String, password: String) async throws -> FirebaseAuth.AuthDataResult {
-        try await Auth.auth().createUser(withEmail: email, password: password)
+    func register(email: String, password: String, username: String) async throws -> AuthDataResult {
+        let result = try await Auth.auth().createUser(withEmail: email, password: password)
+           
+        let userRepo = UserRepositoryImpl()
+            try await userRepo.saveUserToDatabase(username: username, email: email)
+        
+        return result
     }
     
     func login(email: String, password: String) async throws {

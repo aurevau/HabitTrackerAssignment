@@ -9,7 +9,7 @@ import Foundation
 import FirebaseAuth
 
 protocol AuthRepository {
-    func register(email: String, password: String) async throws -> AuthDataResult
+    func register(email: String, password: String, username: String) async throws -> AuthDataResult
     
     func login(email: String, password: String) async throws 
     
