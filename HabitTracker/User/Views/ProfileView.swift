@@ -8,11 +8,47 @@
 import SwiftUI
 
 struct ProfileView: View {
+    @Environment(AuthViewModel.self) private var authViewModel
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        
+        NavigationStack {
+            
+            VStack() {
+                HStack {
+                    Image("profil")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 120, height: 120)
+                    
+                    Spacer()
+                }
+                
+                
+                
+                Spacer()
+            }
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    NavigationLink {
+                        SettingsView()
+                            .environment(authViewModel)
+                    } label: {
+                        Image(systemName: "gear")
+                            .foregroundColor(.primaryText)
+                    }
+                }
+            }
+        }
+        
+        
     }
 }
 
 #Preview {
-    ProfileView()
+    NavigationStack {
+        ProfileView()
+            .environment(AuthViewModel())
+    }
+
 }
