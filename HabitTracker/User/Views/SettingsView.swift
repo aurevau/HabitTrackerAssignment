@@ -13,9 +13,19 @@ struct SettingsView: View {
     var body: some View {
         ZStack {
             VStack {
+                
+                HStack {
+                    Image("settings")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(maxWidth: 200)
+                    
+                    Spacer()
+                }
+                Spacer()
                 Button {
                     authViewModel.logOut()
-                    dismiss() 
+                    dismiss()
                 } label: {
                     if authViewModel.isLoading {
                         ProgressView()

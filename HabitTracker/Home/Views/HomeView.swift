@@ -23,9 +23,11 @@ struct HomeView: View {
                 Spacer()
                 
             }
+            
         
     
         }
+        
         
     }
 }

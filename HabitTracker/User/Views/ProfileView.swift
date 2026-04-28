@@ -16,29 +16,33 @@ struct ProfileView: View {
             
             VStack() {
                 HStack {
-                    Image("profil")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 120, height: 120)
-                    
                     Spacer()
-                }
-                
-                
-                
-                Spacer()
-            }
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
                     NavigationLink {
                         SettingsView()
                             .environment(authViewModel)
                     } label: {
                         Image(systemName: "gear")
                             .foregroundColor(.primaryText)
+                            .font(.system(size: 24))
+                            .padding(.trailing)
+            
+                            
                     }
                 }
+                HStack {
+                    Image("profil")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 120, height: 120)
+                    
+                   Spacer()
+                }
+                
+                
+                
+                Spacer()
             }
+          
         }
         
         
