@@ -10,34 +10,57 @@ import SwiftUI
 struct MainView: View {
     
     @Environment(AuthViewModel.self) private var authViewModel
+    
+    @State private var selectedTab: TabSelection = .home
+    @State private var showSidebar = false
 
     var body: some View {
         
-        ZStack {
-            VStack {
-                Spacer()
-                Text("Hej")
-                    .font(.largeTitle)
-                    .foregroundStyle(.primaryText)
-                Text(authViewModel.authState.rawValue)
-                    .foregroundStyle(.primaryText)
+        NavigationStack {
+            ZStack() {
                 
-                
-                Spacer()
-                
-                Button {
-                    authViewModel.logOut()
-                } label: {
-                    if authViewModel.isLoading {
-                        ProgressView()
-                    } else {
-                        Text("Logga ut")
+                Group {
+                    switch selectedTab {
+                    case .home:
+                        HomeView()
+                            .transition(.move(edge: .leading))
+                    case .profile:
+                        ProfileView()
+                            .transition(.move(edge: .trailing))
                     }
+                    
                 }
-                .modifier(ButtonModifier())
+                .animation(.easeInOut, value: selectedTab)
+                
+                
+                //            
+                //            VStack {
+                //                Spacer()
+                //                Text("Hej")
+                //                    .font(.largeTitle)
+                //                    .foregroundStyle(.primaryText)
+                //                Text(authViewModel.authState.rawValue)
+                //                    .foregroundStyle(.primaryText)
+                //                
+                //                
+                //                Spacer()
+                //                
+                //
+                //            }
+                
+                
+                VStack(spacing: 0) {
+                    Spacer()
+                    TabBarView(selectedTab: $selectedTab, action: {
+                        showSidebar.toggle()
+                    })
+                    
+                }
+                
             }
-        }
+            .ignoresSafeArea(edges: .bottom)
             .gradientBackground()
+        }
         
         
     }
