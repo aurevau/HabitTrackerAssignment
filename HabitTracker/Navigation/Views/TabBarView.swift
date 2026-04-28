@@ -8,35 +8,71 @@
 import SwiftUI
 
 struct TabBarView: View {
-    
+    @Binding var selectedTab: TabSelection
     var action: () -> Void
+    
+    @State var showAddHabitSheet: Bool = false
     
     var body: some View {
         ZStack {
+            
+            Arc()
+                .fill(LinearGradient(colors: [Color.theme.cardGradientEnd,
+                                    Color.theme.cardGradientMid,
+                                              Color.theme.cardGradientStart], startPoint: .topLeading, endPoint: .bottomTrailing))
+                .frame(height: 88)
+                .frame(maxWidth: .infinity)
+                .overlay {
+                    Arc()
+                        .stroke(Color.cardBackground, lineWidth: 0.5)
+                }
+            
+            
+            
             
             // Tab items
             HStack {
                 // Expand Button
                 Button {
-                    action()
+                    selectedTab = .home
                 } label: {
-                    Image(systemName: "list.bullet")
+                    Image(systemName: selectedTab == .home ? "house.fill" : "house")
                         .frame(width: 44, height: 44)
                 }
                 
                 Spacer()
+                ZStack {
+                    HeadTabShape()
+                        .fill(LinearGradient(colors: [Color.theme.cardGradientEnd,
+                                            Color.theme.cardGradientMid,
+                                                      Color.theme.cardGradientStart], startPoint: .topLeading, endPoint: .bottomTrailing))
+                        .frame(height: 88)
+                    
+                    Button{
+                       showAddHabitSheet = true
+                    } label: {
+                        Image(systemName:    "plus.app")
+                            .resizable()
+                            .frame(width: 30, height: 30)
+                    }
+                }
+               
                 
                 // Navigation Button
-                NavigationLink {
-                    ProfileView()
+                Button {
+                    selectedTab = .profile
                 } label: {
-                    Image(systemName: "person.circle")
+                    Image(systemName: selectedTab == .profile ? "person.fill" : "person.circle")
                         .frame(width: 44, height: 44)
                 }
             }
             .font(.title2)
             .foregroundColor(.primaryText)
             .padding(EdgeInsets(top: 20, leading: 32, bottom: 24, trailing: 32))
+        }
+        .frame(height: 88)
+        .sheet(isPresented: $showAddHabitSheet) {
+            AddHabitView()
         }
 
         
@@ -46,5 +82,5 @@ struct TabBarView: View {
 }
 
 #Preview {
-    TabBarView(action: {})
+    TabBarView(selectedTab: .constant(.home), action: {})
 }
