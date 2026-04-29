@@ -15,5 +15,16 @@ class UserViewModel {
     
     var errorMessage = ""
     
-
+    var currentUser: User?
+    
+    func getUserDetails(userId: String) async  {
+        errorMessage = ""
+        do {
+             currentUser = try await userRepo.getUserDetails(userId: userId)
+        
+        } catch {
+            errorMessage = error.localizedDescription
+         
+        }
+    }
 }
