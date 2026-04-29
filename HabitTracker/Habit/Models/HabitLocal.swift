@@ -6,3 +6,17 @@
 //
 
 import Foundation
+import SwiftData
+
+@Model
+class HabitLocal {
+    var id: UUID = UUID()
+    var name: String
+    var completedDates: [Date] = []
+    
+    init(name: String) {
+        self.name = name
+    }
+    
+    
+}
