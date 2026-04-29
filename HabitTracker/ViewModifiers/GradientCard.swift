@@ -10,12 +10,12 @@ import SwiftUI
 
 struct GradientCard: ViewModifier {
     func body(content: Content) -> some View {
-        
-        ZStack {
+        content
+            .background(
             LinearGradient(colors: [Color.theme.cardGradientEnd, Color.theme.cardGradientStart], startPoint: .leading, endPoint: .trailing)
-                .ignoresSafeArea()
-            content
-        }
+            )
+            .cornerRadius(12)
+            .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
     }
 }
 
