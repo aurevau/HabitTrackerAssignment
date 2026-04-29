@@ -22,7 +22,9 @@ class AuthViewModel {
     var isLoading: Bool = false
     var registerSuccess: Bool = false
     
-    var currentUserId = ""
+    var currentUserId : String {
+        authRepo.getUserId() ?? ""
+    }
     
     var userViewModel: UserViewModel?
     
@@ -63,7 +65,6 @@ class AuthViewModel {
             isLoading = true
             do {
                 let result = try await authRepo.register(email: email, password: password, username: username)
-                          currentUserId = result.user.uid
                           authState = .loggedIn
                           registerSuccess = true
                 
