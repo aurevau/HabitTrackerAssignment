@@ -16,6 +16,8 @@ struct ContentView: View {
     @State private var habitLocalViewModel = HabitLocalViewModel(inMemory: false)
     @State private var habitViewModel = HabitViewModel()
     
+    @State private var hasMigrated = false
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -40,7 +42,36 @@ struct ContentView: View {
         .environment(userViewModel)
         .environment(habitLocalViewModel)
         .environment(habitViewModel)
+        .onChange(of: authViewModel.authState) {oldValue, newValue in
+            if oldValue == .guest && newValue == .loggedIn && !hasMigrated {
+                Task {
+                    await migrateHabitsToFirebase()
+                    hasMigrated = true
+                }
+            }
+            if newValue == .loggedOut || newValue == .guest {
+                hasMigrated = false
+            }
+        }
         
+    }
+    
+    private func migrateHabitsToFirebase() async {
+        let localHabits = habitLocalViewModel.habits
+        
+        guard !localHabits.isEmpty else {
+            return
+        }
+        
+        await habitViewModel.migrateLocalHabits(localHabits: localHabits, userId: authViewModel.currentUserId)
+        
+        if habitViewModel.errorMessage == nil {
+            for habit in localHabits {
+                habitLocalViewModel.deleteHabit(habit)
+            }
+        } else {
+            //Migration Failed
+        }
     }
 }
 
