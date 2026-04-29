@@ -15,7 +15,7 @@ struct LocalWeekView: View {
             HStack(spacing: 12) {
                 ForEach(Date().getCurrentWEek(), id: \.self) {date in
                     
-                    WeekDayView(date: date, isToday: date.isToday, isCompleted: isDateCompleted(date))
+                    WeekDayView(date: date, isToday: date.isToday, completionPercentage: completionPercentage(for: date))
                 }
             }
             .padding(.horizontal, 20)
@@ -23,12 +23,17 @@ struct LocalWeekView: View {
         }
     }
     
-    private func isDateCompleted(_ date: Date) -> Bool {
-        habits.contains {habit in
-            habit.completedDates.contains {completedDate in
+    private func completionPercentage(for date: Date) -> Double {
+        guard !habits.isEmpty else { return 0.0 }
+
+        let completedCount = habits.filter { habit in
+            habit.completedDates.contains { completedDate in
                 Calendar.current.isDate(completedDate, inSameDayAs: date)
+
             }
-        }
+        }.count
+        
+        return Double(completedCount) / Double(habits.count)
     }
 }
 
