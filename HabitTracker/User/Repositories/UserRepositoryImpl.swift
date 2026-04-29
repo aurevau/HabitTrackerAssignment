@@ -27,7 +27,7 @@ class UserRepositoryImpl: UserRepository {
         
         let newUser = User(id: uid, username: username, email: email, joined: Date().timeIntervalSince1970)
         
-        try await db.collection("users")
+        try db.collection("users")
             .document(uid)
             .setData(from: newUser)
     }
