@@ -64,7 +64,7 @@ class AuthViewModel {
         Task {
             isLoading = true
             do {
-                let result = try await authRepo.register(email: email, password: password, username: username)
+                let _ = try await authRepo.register(email: email, password: password, username: username)
                           authState = .loggedIn
                           registerSuccess = true
                 
