@@ -15,18 +15,29 @@ struct HomeView: View {
     @Environment(UserViewModel.self) private var userViewModel
     
     
+    
     var body: some View {
         NavigationStack {
              
             VStack {
-                HStack {
-                    Image("hem")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 120, height: 120)
+                HStack() {
+                    VStack(alignment: .leading) {
+                        Text("HEJ")
+                            .foregroundStyle(.primaryText)
+                            .font(.title2)
+                            .fontWeight(.bold)
+                        
+                        if let user = userViewModel.currentUser {
+                            Text(user.username.uppercased())
+                                .font(.largeTitle)
+                                .fontWeight(.bold)
+                                .foregroundStyle(.primaryText)
+                        }
+                    }
                     Spacer()
+                   
                 }
-                .padding(.top)
+                .padding()
                 Spacer()
                 
                 List {
@@ -71,6 +82,8 @@ struct HomeView: View {
         .task {
             if authViewModel.authState != .guest {
                 await habitViewModel.loadHabits(userId: authViewModel.currentUserId)
+                
+                await userViewModel.getUserDetails(userId: authViewModel.currentUserId)
             }
         }
         .refreshable {
