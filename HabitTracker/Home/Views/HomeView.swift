@@ -14,7 +14,7 @@ struct HomeView: View {
     @Environment(AuthViewModel.self) private var authViewModel
     @Environment(UserViewModel.self) private var userViewModel
     
-    
+   
     
     var body: some View {
         NavigationStack {
@@ -32,6 +32,12 @@ struct HomeView: View {
                                 .font(.largeTitle)
                                 .fontWeight(.bold)
                                 .foregroundStyle(.primaryText)
+                        }
+                        
+                        if authViewModel.authState == .guest {
+                            LocalWeekView(habits: habitLocalViewModel.habits)
+                        } else {
+                            WeekView(habits: habitViewModel.habits)
                         }
                     }
                     Spacer()
