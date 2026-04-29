@@ -12,6 +12,10 @@ struct ContentView: View {
     @State private var authViewModel = AuthViewModel()
     @State private var userViewModel = UserViewModel()
     
+    
+    @State private var habitLocalViewModel = HabitLocalViewModel(inMemory: false)
+    @State private var habitViewModel = HabitViewModel()
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -34,6 +38,8 @@ struct ContentView: View {
         }
         .environment(authViewModel)
         .environment(userViewModel)
+        .environment(habitLocalViewModel)
+        .environment(habitViewModel)
         
     }
 }
