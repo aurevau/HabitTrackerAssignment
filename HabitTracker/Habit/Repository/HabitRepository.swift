@@ -70,5 +70,13 @@ class HabitRepository {
             .delete()
     }
     
+    func migrateLocalHabits(localHabits: [HabitLocal], userId: String) async throws {
+        for localHabit in localHabits {
+            let firebaseHabit = Habit(id: UUID().uuidString, name: localHabit.name, completedDates: localHabit.completedDates)
+            
+            try await saveHabit(userId: userId, habit: firebaseHabit)
+        }
+    }
+    
     
 }

@@ -81,4 +81,18 @@ class HabitViewModel {
         
     }
     
+    
+    func migrateLocalHabits(localHabits: [HabitLocal], userId: String) async  {
+        errorMessage = ""
+  
+        do {
+            try await repository.migrateLocalHabits(localHabits: localHabits, userId: userId)
+            
+            await loadHabits(userId: userId)
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+        
+    }
+    
 }
