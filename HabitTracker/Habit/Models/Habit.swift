@@ -6,3 +6,13 @@
 //
 
 import Foundation
+
+struct Habit: Identifiable, Codable {
+    let id: String
+    var name: String
+    var completedDates: [Date] = []
+    
+    
+    
+    
+}
