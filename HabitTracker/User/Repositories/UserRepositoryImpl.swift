@@ -10,6 +10,14 @@ import FirebaseFirestore
 import FirebaseAuth
 
 class UserRepositoryImpl: UserRepository {
+    func getUserDetails(userId: String) async throws -> User {
+        let snapshot = try await db.collection("users")
+            .document(userId)
+            .getDocument()
+        
+        return try snapshot.data(as: User.self)
+    }
+    
     
     
     private var db = Firestore.firestore()

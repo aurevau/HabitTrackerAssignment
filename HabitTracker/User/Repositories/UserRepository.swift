@@ -10,4 +10,6 @@ import Foundation
 protocol UserRepository {
    
     func saveUserToDatabase(username: String, email: String) async throws
+    
+    func getUserDetails(userId: String) async throws -> User
 }
