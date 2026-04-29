@@ -11,7 +11,12 @@ struct ProfileView: View {
     @Environment(AuthViewModel.self) private var authViewModel
     @Environment(\.dismiss) private var dismiss
     
+    @Environment(UserViewModel.self) private var userViewModel
+    
     @State private var showLoginSheet: Bool = false
+    
+  
+    
     var body: some View {
         
         NavigationStack {
@@ -56,10 +61,30 @@ struct ProfileView: View {
                         
                         Spacer()
                     }
+                    if let user = userViewModel.currentUser {
+                        
+                        VStack(alignment: .leading) {
+                            Text("Medlem sedan:  \(user.formattedJoinedDate)")
+                                .font(.caption)
+                                .foregroundColor(.gray)
+                            
+                            Text("Username: \(user.username)")
+                                .font(.subheadline)
+                                .foregroundColor(.primaryText)
+                            
+                            Text("Email: \(user.email)")
+                                .font(.subheadline)
+                                .foregroundColor(.primaryText)
+                        }
+                       
+                    }
                     
                     
                     
                     Spacer()
+                }
+                .task {
+                    await userViewModel.getUserDetails(userId: authViewModel.currentUserId)
                 }
                 
             }
