@@ -13,6 +13,7 @@ class HabitLocal {
     var id: UUID = UUID()
     var name: String
     var completedDates: [Date] = []
+    var locations: [Location] = []
     
     init(name: String) {
         self.name = name
