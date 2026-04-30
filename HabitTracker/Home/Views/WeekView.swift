@@ -12,9 +12,6 @@ struct WeekView: View {
     
     var body: some View {
         ScrollViewReader {proxy in
-            
-            
-            
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 12) {
                     ForEach(Date().getCurrentWEek(), id: \.self) {date in

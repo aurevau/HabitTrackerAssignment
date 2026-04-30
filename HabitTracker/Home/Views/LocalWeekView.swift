@@ -11,15 +11,24 @@ struct LocalWeekView: View {
     let habits: [HabitLocal]
     
     var body: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 12) {
-                ForEach(Date().getCurrentWEek(), id: \.self) {date in
-                    
-                    WeekDayView(date: date, isToday: date.isToday, completionPercentage: completionPercentage(for: date))
+        ScrollViewReader {proxy in
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 12) {
+                    ForEach(Date().getCurrentWEek(), id: \.self) {date in
+                        
+                        WeekDayView(date: date, isToday: date.isToday, completionPercentage: completionPercentage(for: date))
+                            .id(date)
+                    }
+                }
+                .padding(16)
+            }
+            .onAppear {
+                if let today = Date().getCurrentWEek().first(where: {$0.isToday }) {
+                    withAnimation {
+                        proxy.scrollTo(today, anchor: .center)
+                    }
                 }
             }
-            .padding(.horizontal, 20)
-            .padding(.vertical, 16)
         }
     }
     
