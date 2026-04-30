@@ -8,6 +8,7 @@
 import Foundation
 import Observation
 import SwiftData
+import CoreLocation
 
 @Observable
 class HabitLocalViewModel {
@@ -81,16 +82,34 @@ class HabitLocalViewModel {
                 calendar.isDateInToday($0)
             }) {
                 habit.completedDates.remove(at: todayIndex)
+                habit.locations.removeAll {
+                    calendar.isDateInToday($0.date)
+                }
+                
+                save()
+                
             } else {
                 habit.completedDates.append(Date())
+                
+                Task {
+                    if let location = try? await CLLocationUpdate.currentLocation() {
+                        let newLocation = Location(name: habit.name, latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, date: Date())
+                        
+                        habit.locations.append(newLocation)
+                    }
+                    save()
+                }
             }
             
-            do {
-                try modelContext?.save()
-            } catch {
-                errorMessage = error.localizedDescription
-            }
         }
+    
+    private func save() {
+        do {
+            try modelContext?.save()
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
     
     func deleteHabit(_ habit: HabitLocal) {
         guard let modelContext = modelContext else {return}
