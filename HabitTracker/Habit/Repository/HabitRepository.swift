@@ -30,7 +30,16 @@ class HabitRepository {
         let data: [String: Any] = [
             "id": habit.id,
             "name": habit.name,
-            "completedDates": habit.completedDates.map {$0.timeIntervalSince1970}
+            "completedDates": habit.completedDates.map {$0.timeIntervalSince1970},
+            "locations": habit.locations.map {
+                [
+                    "id": $0.id.uuidString,
+                    "name" : $0.name,
+                    "latitude": $0.latitude,
+                    "longitude": $0.longitude,
+                    "date": $0.date.timeIntervalSince1970
+                ]
+            }
         ]
         
         try await db.collection("users")
@@ -57,7 +66,21 @@ class HabitRepository {
             let timestamps = data["completedDates"] as? [TimeInterval] ?? []
             let dates = timestamps.map {Date(timeIntervalSince1970: $0)}
             
-            return Habit(id: id, name: name, completedDates: dates)
+            let locationData = data["locations"] as? [[String: Any]] ?? []
+            let locations = locationData.compactMap {location -> Location? in
+                
+                guard let idString = location["id"] as? String,
+                      let name = location["name"] as? String,
+                      let latitude = location["latitude"] as? Double,
+                      let longitude = location["longitude"] as? Double,
+                      let dateInterval = location["date"] as? TimeInterval else {
+                    return nil
+                }
+                
+                return Location(id: UUID(uuidString: idString) ?? UUID(), name: name, latitude: latitude, longitude: longitude, date: Date(timeIntervalSince1970: dateInterval))
+            }
+            
+            return Habit(id: id, name: name, completedDates: dates, locations: locations)
         }
     }
     

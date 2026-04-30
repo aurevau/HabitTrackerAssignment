@@ -7,9 +7,11 @@
 
 import SwiftUI
 import FirebaseCore
+import MapKit
 
 @main
 struct HabitTrackerApp: App {
+    @State private var locationManager = CLLocationManager()
     
     init() {
         FirebaseApp.configure()
@@ -18,6 +20,9 @@ struct HabitTrackerApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .onAppear {
+                    locationManager.requestWhenInUseAuthorization()
+                }
         }
     }
 }
