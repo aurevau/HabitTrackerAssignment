@@ -14,6 +14,7 @@ struct HomeView: View {
     @Environment(AuthViewModel.self) private var authViewModel
     @Environment(UserViewModel.self) private var userViewModel
     
+    
    
     
     var body: some View {
@@ -77,6 +78,16 @@ struct HomeView: View {
 
                 
             }
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    NavigationLink {
+                        MapView()
+                    } label: {
+                        Image(systemName: "mappin")
+                    }
+                }
+            }
+            
             
             
                
