@@ -8,11 +8,37 @@
 import SwiftUI
 
 struct LocationDetailSheet: View {
+    let location: Location
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(alignment: .leading, spacing: 12) {
+            
+            HStack {
+                Text("Vana:")
+                    .font(.title2)
+                    .fontWeight(.bold)
+                Text(location.name)
+                    .font(.title2)
+        
+            }
+         
+            Text("Genomförd:")
+                .font(.subheadline)
+                .fontWeight(.semibold)
+            Label(
+                location.date.formatted(date: .abbreviated, time: .shortened),
+                systemImage: "calendar"
+                )
+                .foregroundStyle(.secondary)
+            
+            Spacer()
+            
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding()
+        .presentationDetents([.fraction(0.25)])
+        .presentationDragIndicator(.visible)
+        .presentationBackgroundInteraction(.enabled) 
     }
 }
 
-#Preview {
-    LocationDetailSheet()
-}
