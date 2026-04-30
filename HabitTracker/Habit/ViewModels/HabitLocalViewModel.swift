@@ -40,7 +40,7 @@ class HabitLocalViewModel {
         }
     }
     
-    private func queryHabits() {
+    func queryHabits() {
         guard let modelContext = modelContext else {
             self.errorMessage = "Ingen databas kopplad"
             return
