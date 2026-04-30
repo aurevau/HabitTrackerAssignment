@@ -7,6 +7,7 @@
 
 import Foundation
 import Observation
+import CoreLocation
 
 @Observable
 class HabitViewModel {
@@ -27,8 +28,18 @@ class HabitViewModel {
             calendar.isDateInToday($0)
         }) {
             habits[index].completedDates.remove(at: todayIndex)
+            habits[index].locations.removeAll {
+                        calendar.isDateInToday($0.date)
+            }
+            
         } else {
             habits[index].completedDates.append(Date())
+            
+            if let location = try? await CLLocationUpdate.currentLocation() {
+                let newLocation = Location(name: habit.name, latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, date: Date()
+                )
+                habits[index].locations.append(newLocation)
+            }
         }
                 
         await updateHabit(userId: userId, habit: habits[index])
