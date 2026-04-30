@@ -63,7 +63,30 @@ struct ProfileView: View {
                     }
                     if let user = userViewModel.currentUser {
                         
+                        if let urlString = user.profileImageUrl,
+                           let url = URL(string: urlString) {
+                            AsyncImage(url: url) { phase in
+                                phase.image?
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 100, height: 100)
+                                    .clipShape(Circle())
+                                    .padding()
+                                
+                            }
+                            
+                        } else {
+                            Image(systemName: "person.circle.fill")
+                                .resizable()
+                                .frame(width: 100, height: 100)
+                                .foregroundStyle(.gray)
+                                .padding()
+                        }
+                        
                         VStack(alignment: .leading) {
+            
+                            
+                                
                             Text("Medlem sedan:  \(user.formattedJoinedDate)")
                                 .font(.caption)
                                 .foregroundColor(.gray)
@@ -83,6 +106,7 @@ struct ProfileView: View {
                     
                     Spacer()
                 }
+            
                 .task {
                     await userViewModel.getUserDetails(userId: authViewModel.currentUserId)
                 }

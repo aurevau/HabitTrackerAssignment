@@ -7,6 +7,7 @@
 
 import Foundation
 import Observation
+import UIKit
 
 @Observable
 class UserViewModel {
@@ -27,4 +28,18 @@ class UserViewModel {
          
         }
     }
+    
+    func saveUserToDatabase(username: String, email: String, profileImage: UIImage? = nil) async {
+            do {
+                try await userRepo.saveUserToDatabase(
+                    username: username,
+                    email: email,
+                    profileImage: profileImage
+                )
+            } catch {
+                errorMessage = error.localizedDescription
+            }
+        }
+    
+    
 }

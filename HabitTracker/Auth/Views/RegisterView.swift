@@ -6,10 +6,15 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct RegisterView: View {
     @Environment(AuthViewModel.self) private var authViewModel
     @Environment(UserViewModel.self) private var userViewModel
+    
+    @State private var selectedItem: PhotosPickerItem?
+    
+    @State private var selectedImage: UIImage?
     
     var body: some View {
         
@@ -23,7 +28,37 @@ struct RegisterView: View {
                     .scaledToFit()
                     .font(.system(size: 60))
               
-            
+                if let selectedImage = selectedImage {
+                    Image(uiImage: selectedImage)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(maxWidth: 200)
+                        .clipShape(Circle())
+                } else {
+                    Text("Ingen profilbild vald")
+                        .foregroundStyle(.gray)
+                        .padding()
+                }
+                
+                PhotosPicker(selection: $selectedItem, matching: .images, photoLibrary: .shared()) {
+                    Text("Välj foto")
+                        .modifier(ButtonModifier())
+                }
+                .disabled(selectedImage != nil)
+                .onChange(of: selectedItem) { _,  newItem in
+                    if let newItem = newItem {
+                        Task {
+                            if let data = try? await newItem.loadTransferable(type: Data.self),
+                               let image = UIImage(data: data) {
+                                selectedImage = image
+                            }
+                        }
+                    }
+                    
+                }
+                
+                
+                
                 TextField("", text: $authVm.username,
                 prompt: Text("Username ").foregroundColor(.gray))
                     .autocapitalization(.none)
@@ -72,7 +107,14 @@ struct RegisterView: View {
                 }
                 
                 Button {
-                    authViewModel.register()
+                   
+                    Task {
+                        await authViewModel.register()
+                        
+                        guard authViewModel.registerSuccess else { return }
+
+                         await userViewModel.saveUserToDatabase(username: authViewModel.username, email: authViewModel.email, profileImage: selectedImage)
+                    }
                     
                   
                 } label: {

@@ -35,11 +35,11 @@ class AuthViewModel {
       
     }
     
-    func login()  {
+    func login() async {
         guard validateLogin() else {
             return
         }
-        Task {
+       
             isLoading = true
             do {
                 try await authRepo.login(email: email, password: password)
@@ -50,18 +50,16 @@ class AuthViewModel {
                 errorMessage = error.localizedDescription
                 authState = .loggedOut
             }
-            isLoading = false 
-        }
+            isLoading = false
        
            
     }
     
-    func register() {
+    func register() async {
         guard validateRegistration() else {
             return
         }
         
-        Task {
             isLoading = true
             do {
                 let _ = try await authRepo.register(email: email, password: password, username: username)
@@ -74,7 +72,6 @@ class AuthViewModel {
             }
             
             isLoading = false
-        }
     }
     
     func validateRegistration() -> Bool {

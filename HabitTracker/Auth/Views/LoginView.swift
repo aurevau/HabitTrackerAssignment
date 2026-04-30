@@ -45,7 +45,9 @@ struct LoginView: View {
                 }
                 
                 Button {
-                    authViewModel.login()
+                    Task {
+                        await authViewModel.login()
+                    }
                 } label: {
                     if authViewModel.isLoading {
                         ProgressView()
