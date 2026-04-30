@@ -13,14 +13,12 @@ struct LocationDetailSheet: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             
-            HStack {
-                Text("Vana:")
-                    .font(.title2)
-                    .fontWeight(.bold)
-                Text(location.name)
-                    .font(.title2)
+               
+            Text(location.name)
+                .font(.title2)
+                .fontWeight(.bold)
         
-            }
+         
          
             Text("Genomförd:")
                 .font(.subheadline)
