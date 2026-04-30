@@ -14,4 +14,5 @@ struct User: Identifiable, Codable {
     var username: String
     var email: String
     let joined: TimeInterval
+    var profileImageUrl: String? = nil 
 }
