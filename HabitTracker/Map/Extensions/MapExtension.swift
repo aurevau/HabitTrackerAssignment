@@ -21,12 +21,13 @@ extension CLLocationUpdate {
 
 extension MapView {
     
-    func image(for location: Location, habits: [Habit], authState: AuthState) -> String? {
-    
-        let calendar = Calendar.current
-        return habits
-            .flatMap { $0.images }
-            .first { calendar.isDate($0.date, inSameDayAs: location.date) }?
+    func image(for location: Location, habits: [Habit]) -> String? {
+        guard let habit = habits.first(where: { habit in
+            habit.locations.contains { $0.id == location.id }
+        }) else { return nil }
+        
+        return habit.images
+            .first { $0.locationId == location.id }?
             .habitImage
     }
     
@@ -40,9 +41,8 @@ extension MapView {
 
 extension LocationDetailSheet {
     var habitImage: String? {
-        let calendar = Calendar.current
         return habit.images
-            .first { calendar.isDate($0.date, inSameDayAs: location.date) }?
+            .first { $0.locationId == location.id }?
             .habitImage
     }
 }
