@@ -9,6 +9,7 @@ import SwiftUI
 
 struct LocationDetailSheet: View {
     let location: Location
+    let habit: Habit
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -17,8 +18,19 @@ struct LocationDetailSheet: View {
             Text(location.name)
                 .font(.title2)
                 .fontWeight(.bold)
-        
-         
+            
+            
+            if let urlString = habitImage,
+               let url = URL(string: urlString) {
+                AsyncImage(url: url) { phase in
+                    phase.image?
+                        .resizable()
+                        .scaledToFit()
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 150)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                }
+            }
          
             Text("Genomförd:")
                 .font(.subheadline)
@@ -34,9 +46,12 @@ struct LocationDetailSheet: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
-        .presentationDetents([.fraction(0.25)])
+        .presentationDetents([.fraction(0.5)])
         .presentationDragIndicator(.visible)
         .presentationBackgroundInteraction(.enabled) 
     }
+    
+    
+    
 }
 
