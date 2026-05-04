@@ -13,12 +13,11 @@ struct MainView: View {
     
     @State private var selectedTab: TabSelection = .home
     @State private var showSidebar = false
-
+    @Binding var navigateToHome: Bool
     var body: some View {
         
         NavigationStack {
             ZStack() {
-                
                 Group {
                     switch selectedTab {
                     case .home:
@@ -60,6 +59,12 @@ struct MainView: View {
             }
             .ignoresSafeArea(edges: .bottom)
             .gradientBackground()
+            .onChange(of: navigateToHome) { _, newValue in
+                if newValue {
+                    selectedTab = .home
+                    navigateToHome = false
+                }
+            }
         }
         
         
@@ -67,6 +72,6 @@ struct MainView: View {
 }
 
 #Preview {
-    MainView()
+    MainView(navigateToHome: .constant(false))
         .environment(AuthViewModel())
 }
