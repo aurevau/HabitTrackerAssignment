@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct LocalWeekView: View {
-    let habits: [HabitLocal]
+struct WeekView: View {
+    let habits: [Habit]
     
     var body: some View {
         ScrollViewReader {proxy in
@@ -21,6 +21,7 @@ struct LocalWeekView: View {
                     }
                 }
                 .padding(16)
+                
             }
             .onAppear {
                 if let today = Date().getCurrentWEek().first(where: {$0.isToday }) {
@@ -32,18 +33,6 @@ struct LocalWeekView: View {
         }
     }
     
-    private func completionPercentage(for date: Date) -> Double {
-        guard !habits.isEmpty else { return 0.0 }
-
-        let completedCount = habits.filter { habit in
-            habit.completedDates.contains { completedDate in
-                Calendar.current.isDate(completedDate, inSameDayAs: date)
-
-            }
-        }.count
-        
-        return Double(completedCount) / Double(habits.count)
-    }
 }
 
 

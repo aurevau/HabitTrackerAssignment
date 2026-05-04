@@ -7,6 +7,8 @@
 
 import Foundation
 import FirebaseFirestore
+import FirebaseStorage
+import UIKit
 
 class HabitRepository {
     private let db = Firestore.firestore()
@@ -26,12 +28,21 @@ class HabitRepository {
         
     }
     
-    func updateHabit(userId: String, habit: Habit) async throws {
+    func updateHabit(userId: String, habit: Habit, habitImage: UIImage? = nil) async throws {
+        
+        var updatedHabit = habit
+       
+        if let image = habitImage {
+            let imageUrl = try await uploadHabitPicture(image: image, userId: userId, habitId: habit.id)
+            let newImage = HabitImage(habitImage: imageUrl, date: Date())
+            updatedHabit.images.append(newImage)
+        }
+        
         let data: [String: Any] = [
             "id": habit.id,
             "name": habit.name,
             "completedDates": habit.completedDates.map {$0.timeIntervalSince1970},
-            "locations": habit.locations.map {
+            "locations": updatedHabit.locations.map {
                 [
                     "id": $0.id.uuidString,
                     "name" : $0.name,
@@ -39,7 +50,14 @@ class HabitRepository {
                     "longitude": $0.longitude,
                     "date": $0.date.timeIntervalSince1970
                 ]
-            }
+            },
+            "images": updatedHabit.images.map {
+                    [
+                        "id": $0.id.uuidString,
+                        "habitImage": $0.habitImage ?? "",
+                        "date": $0.date.timeIntervalSince1970
+                    ]
+                }
         ]
         
         try await db.collection("users")
@@ -80,7 +98,15 @@ class HabitRepository {
                 return Location(id: UUID(uuidString: idString) ?? UUID(), name: name, latitude: latitude, longitude: longitude, date: Date(timeIntervalSince1970: dateInterval))
             }
             
-            return Habit(id: id, name: name, completedDates: dates, locations: locations)
+            let imageData = data["images"] as? [[String: Any]] ?? []
+            let images: [HabitImage] = imageData.compactMap {image in
+                guard let idString = image["id"] as? String,
+                      let dateInterval = image["date"] as? TimeInterval else {
+                    return nil
+                }
+                return HabitImage(id: UUID(uuidString: idString) ?? UUID(), habitImage: image["habitImage"] as? String, date: Date(timeIntervalSince1970: dateInterval))
+            }
+            return Habit(id: id, name: name, completedDates: dates, locations: locations,  images: images)
         }
     }
     
@@ -99,6 +125,20 @@ class HabitRepository {
             
             try await saveHabit(userId: userId, habit: firebaseHabit)
         }
+    }
+    
+    func uploadHabitPicture(image: UIImage, userId: String, habitId: String) async throws -> String {
+        guard let imageData = image.jpegData(compressionQuality: 0.8) else {
+            throw URLError(.badServerResponse)
+        }
+        let filename = UUID().uuidString
+            let ref = Storage.storage().reference()
+                .child("habit_images/\(userId)/\(habitId)/\(filename).jpg")
+        
+        let result = try await ref.putDataAsync(imageData)
+        let url = try await ref.downloadURL()
+        
+        return url.absoluteString
     }
     
     

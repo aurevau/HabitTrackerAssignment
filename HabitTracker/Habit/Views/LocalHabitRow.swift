@@ -37,7 +37,7 @@ struct LocalHabitRow: View {
                 .foregroundColor(.primaryText)
         }
         .padding()
-        .gradientCard()
+        .gradientCard(isCompleted: habit.isCompletedToday)
         .listRowSeparator(.hidden)
         .listRowBackground(Color.clear)
         .listRowInsets(EdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 16))

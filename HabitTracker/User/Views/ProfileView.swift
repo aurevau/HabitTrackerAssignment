@@ -39,20 +39,20 @@ struct ProfileView: View {
                 }
             } else {
                 VStack() {
-                    HStack {
-                        Spacer()
+                
+                    }
+                .toolbar {
+                    ToolbarItem(placement: .topBarTrailing) {
                         NavigationLink {
                             SettingsView()
-                                .environment(authViewModel)
                         } label: {
                             Image(systemName: "gear")
-                                .foregroundColor(.primaryText)
-                                .font(.system(size: 24))
-                                .padding(.trailing)
-                            
-                            
                         }
                     }
+                }
+                .task {
+                    await userViewModel.getUserDetails(userId: authViewModel.currentUserId)
+                }
                     HStack {
                         Image("profil")
                             .resizable()
@@ -106,16 +106,15 @@ struct ProfileView: View {
                     
                     Spacer()
                 }
+               
             
-                .task {
-                    await userViewModel.getUserDetails(userId: authViewModel.currentUserId)
-                }
+                
                 
             }
             
         }
     }
-}
+
 
 #Preview {
     NavigationStack {
