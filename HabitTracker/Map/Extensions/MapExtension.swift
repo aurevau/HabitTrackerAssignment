@@ -17,3 +17,32 @@ extension CLLocationUpdate {
         return nil 
     }
 }
+
+
+extension MapView {
+    
+    func image(for location: Location, habits: [Habit], authState: AuthState) -> String? {
+    
+        let calendar = Calendar.current
+        return habits
+            .flatMap { $0.images }
+            .first { calendar.isDate($0.date, inSameDayAs: location.date) }?
+            .habitImage
+    }
+    
+    func habit(for location: Location, habits: [Habit]) -> Habit? {
+        habits.first { habit in
+            habit.locations.contains { $0.id == location.id }
+        }
+    }
+}
+
+
+extension LocationDetailSheet {
+    var habitImage: String? {
+        let calendar = Calendar.current
+        return habit.images
+            .first { calendar.isDate($0.date, inSameDayAs: location.date) }?
+            .habitImage
+    }
+}

@@ -31,19 +31,6 @@ struct LocalWeekView: View {
             }
         }
     }
-    
-    private func completionPercentage(for date: Date) -> Double {
-        guard !habits.isEmpty else { return 0.0 }
-
-        let completedCount = habits.filter { habit in
-            habit.completedDates.contains { completedDate in
-                Calendar.current.isDate(completedDate, inSameDayAs: date)
-
-            }
-        }.count
-        
-        return Double(completedCount) / Double(habits.count)
-    }
 }
 
 
