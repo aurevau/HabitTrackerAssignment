@@ -29,16 +29,37 @@ class HabitViewModel {
             calendar.isDateInToday($0)
         }) {
             habits[index].completedDates.remove(at: todayIndex)
-            habits[index].locations.removeAll {
-                        calendar.isDateInToday($0.date)
-            }
-            habits[index].images.removeAll {
-                calendar.isDateInToday($0.date)
-            }
+            let todayLocationId = habits[index].locations.first {
+                       calendar.isDateInToday($0.date)
+                   }?.id
+                   
+                   habits[index].locations.removeAll {
+                       calendar.isDateInToday($0.date)
+                   }
+            
+            if let locationId = todayLocationId {
+                       habits[index].images.removeAll {
+                           $0.locationId == locationId
+                       }
+                   }
             
         } else {
             habits[index].completedDates.append(Date())
             
+            let oldLocationId = habits[index].locations.first {
+                    calendar.isDateInToday($0.date)
+                }?.id
+            
+            habits[index].locations.removeAll {
+                   calendar.isDateInToday($0.date)
+               }
+            
+            if let locationId = oldLocationId {
+                   habits[index].images.removeAll {
+                       $0.locationId == locationId
+                   }
+               }
+                
             if let location = try? await CLLocationUpdate.currentLocation() {
                 let newLocation = Location(name: habit.name, latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, date: Date()
                 )

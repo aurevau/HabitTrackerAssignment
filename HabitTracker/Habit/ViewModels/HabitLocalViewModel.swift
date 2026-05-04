@@ -60,10 +60,10 @@ class HabitLocalViewModel {
         }
     }
     
-    func saveHabit(name: String) {
+    func saveHabit(name: String, description: String) {
         guard let modelContext = modelContext else { return }
             
-            let habit = HabitLocal(name: name)
+        let habit = HabitLocal(name: name, description: description)
             modelContext.insert(habit)
             
             do {

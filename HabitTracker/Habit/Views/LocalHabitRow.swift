@@ -26,9 +26,15 @@ struct LocalHabitRow: View {
           
           
             
-            Text(habit.name)
-                .fontWeight(.semibold)
-                .foregroundColor(.primaryText)
+            VStack(alignment: .leading){
+                Text(habit.name)
+                    .fontWeight(.semibold)
+                  
+                Text(habit.habitDescription)
+                    .font(.caption)
+    
+            }
+            .foregroundColor(.primaryText)
             
             Spacer()
             

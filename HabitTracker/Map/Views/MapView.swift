@@ -36,7 +36,7 @@ struct MapView: View {
                                 .fill(LinearGradient(colors: [Color.theme.cardGradientStart, Color.theme.cardGradientEnd], startPoint: .topLeading, endPoint: .bottomTrailing))
                                 .frame(width: 38, height: 44)
                             
-                            if let urlString = image(for: location, habits: habitViewModel.habits, authState: authViewModel.authState),
+                            if let urlString = image(for: location, habits: habitViewModel.habits),
                                let url = URL(string: urlString) {
                                 AsyncImage(url: url) {
                                     phase in

@@ -36,9 +36,16 @@ struct HabitRow: View {
                     .foregroundStyle(habit.isCompletedToday ? .green : .primaryText)
               
             }
-            Text(habit.name)
-                .fontWeight(.semibold)
-                .foregroundColor(.primaryText)
+            VStack(alignment: .leading){
+                Text(habit.name)
+                    .fontWeight(.semibold)
+                  
+                Text(habit.description)
+                    .font(.caption)
+    
+            }
+            .foregroundColor(.primaryText)
+            
             
             Spacer()
             

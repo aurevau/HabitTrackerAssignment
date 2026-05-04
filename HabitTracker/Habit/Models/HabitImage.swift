@@ -8,7 +8,6 @@
 import Foundation
 struct HabitImage: Codable, Equatable, Identifiable {
     var id: UUID = UUID()
+    var locationId: UUID?
     var habitImage: String? = nil
-    var date: Date
-    
 }

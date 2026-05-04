@@ -15,6 +15,7 @@ struct AddHabitView: View {
     @Environment(\.dismiss) private var dismiss
     
     @State private var habitName = ""
+    @State private var habitDescription = ""
     
     var isGuest: Bool {
         authViewModel.authState == .guest
@@ -25,7 +26,7 @@ struct AddHabitView: View {
         
         NavigationStack {
             ZStack {
-                VStack {
+                VStack(spacing: 12) {
                     HStack {
                         Image("vana")
                             .resizable()
@@ -38,20 +39,24 @@ struct AddHabitView: View {
                     
                     
                     TextField("", text: $habitName,
-                        prompt: Text("Jag vill springa mer").foregroundColor(.gray))
-                        .autocapitalization(.none)
-                        .autocorrectionDisabled()
+                        prompt: Text("Titel på din vana").foregroundColor(.gray))
+
                         .modifier(TextFieldModifier())
                         .foregroundStyle(.primaryText)
                     
-                    Spacer()
+                    
+                    TextField("", text: $habitDescription,
+                              prompt: Text("Beskriv din vana mer").foregroundColor(.gray), axis: .vertical)
+                        .modifier(TextFieldModifier())
+                        .foregroundStyle(.primaryText)
+                  
                     
                     Button {
                         if isGuest {
-                            habitLocalViewModel.saveHabit(name: habitName)
+                            habitLocalViewModel.saveHabit(name: habitName, description: habitDescription)
                         } else {
                             Task {
-                                await habitViewModel.saveHabit(userId: authViewModel.currentUserId, habit: Habit(id: UUID().uuidString, name: habitName, completedDates: []))
+                                await habitViewModel.saveHabit(userId: authViewModel.currentUserId, habit: Habit(id: UUID().uuidString, name: habitName, description: habitDescription, completedDates: []))
                             }
                            
                           
@@ -63,6 +68,8 @@ struct AddHabitView: View {
                     .modifier(ButtonModifier())
                     .disabled(habitName.isEmpty)
                     .padding()
+                    
+                    Spacer()
                 }
             }
             .gradientBackground()

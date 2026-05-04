@@ -12,11 +12,13 @@ import SwiftData
 class HabitLocal {
     var id: UUID = UUID()
     var name: String
+    var habitDescription: String
     var completedDates: [Date] = []
     var locations: [Location] = []
     
-    init(name: String) {
+    init(name: String, description: String) {
         self.name = name
+        self.habitDescription = description
     }
     
     

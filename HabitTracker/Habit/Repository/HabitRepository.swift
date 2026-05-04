@@ -17,6 +17,7 @@ class HabitRepository {
         let data: [String: Any] = [
             "id": habit.id,
             "name": habit.name,
+            "description": habit.description,
             "completedDates": habit.completedDates.map {$0.timeIntervalSince1970}
         ]
         
@@ -34,13 +35,17 @@ class HabitRepository {
        
         if let image = habitImage {
             let imageUrl = try await uploadHabitPicture(image: image, userId: userId, habitId: habit.id)
-            let newImage = HabitImage(habitImage: imageUrl, date: Date())
+            let locationId = habit.locations.first {
+                Calendar.current.isDateInToday($0.date)
+                       }?.id
+            let newImage = HabitImage(locationId: locationId, habitImage: imageUrl)
             updatedHabit.images.append(newImage)
         }
         
         let data: [String: Any] = [
             "id": habit.id,
             "name": habit.name,
+            "description": habit.description,
             "completedDates": habit.completedDates.map {$0.timeIntervalSince1970},
             "locations": updatedHabit.locations.map {
                 [
@@ -55,7 +60,7 @@ class HabitRepository {
                     [
                         "id": $0.id.uuidString,
                         "habitImage": $0.habitImage ?? "",
-                        "date": $0.date.timeIntervalSince1970
+                        "locationId": $0.locationId?.uuidString ?? ""
                     ]
                 }
         ]
@@ -77,6 +82,7 @@ class HabitRepository {
             let data = doc.data()
             
             guard let id = data["id"] as? String,
+                  let description = data["description"] as? String,
                   let name = data["name"] as? String else {
                 return nil
             }
@@ -100,13 +106,17 @@ class HabitRepository {
             
             let imageData = data["images"] as? [[String: Any]] ?? []
             let images: [HabitImage] = imageData.compactMap {image in
-                guard let idString = image["id"] as? String,
-                      let dateInterval = image["date"] as? TimeInterval else {
-                    return nil
-                }
-                return HabitImage(id: UUID(uuidString: idString) ?? UUID(), habitImage: image["habitImage"] as? String, date: Date(timeIntervalSince1970: dateInterval))
+                guard let idString = image["id"] as? String else { return nil }
+                
+                let locationId = (image["locationId"] as? String).flatMap { UUID(uuidString: $0) }
+
+                return HabitImage(
+                    id: UUID(uuidString: idString) ?? UUID(),
+                    locationId: UUID(uuidString: image["locationId"] as? String ?? ""),
+                    habitImage: image["habitImage"] as? String
+                )
             }
-            return Habit(id: id, name: name, completedDates: dates, locations: locations,  images: images)
+            return Habit(id: id, name: name, description: description, completedDates: dates, locations: locations,  images: images)
         }
     }
     
@@ -121,7 +131,7 @@ class HabitRepository {
     
     func migrateLocalHabits(localHabits: [HabitLocal], userId: String) async throws {
         for localHabit in localHabits {
-            let firebaseHabit = Habit(id: UUID().uuidString, name: localHabit.name, completedDates: localHabit.completedDates)
+            let firebaseHabit = Habit(id: UUID().uuidString, name: localHabit.name, description: localHabit.habitDescription, completedDates: localHabit.completedDates)
             
             try await saveHabit(userId: userId, habit: firebaseHabit)
         }
