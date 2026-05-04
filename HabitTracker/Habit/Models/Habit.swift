@@ -12,8 +12,5 @@ struct Habit: Identifiable, Codable {
     var name: String
     var completedDates: [Date] = []
     var locations: [Location] = []
-    
-    
-    
-    
+    var images: [HabitImage] = []
 }
