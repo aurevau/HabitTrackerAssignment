@@ -6,10 +6,14 @@
 //
 
 import SwiftUI
+import UserNotifications
 
 struct SettingsView: View {
     @Environment(AuthViewModel.self) private var authViewModel
     @Environment(\.dismiss) private var dismiss
+    
+    @AppStorage("isNotificationAuhtorized") var isNotificationAuthorized = false
+    
     var body: some View {
         ZStack {
             VStack {
@@ -22,6 +26,21 @@ struct SettingsView: View {
                     
                     Spacer()
                 }
+                
+                Toggle(isOn: $isNotificationAuthorized, label: {
+                    Text("Slå på Notiser")
+                        .foregroundColor(.primaryText)
+                    
+                })
+                
+                .onChange(of: isNotificationAuthorized) {_, newValue in
+                    if newValue {
+                        requestNotificationAuthorization()
+                    } else {
+                        sendNotification()
+                    }
+                }
+                .padding()
                 Spacer()
                 Button {
                     authViewModel.logOut()
@@ -37,8 +56,12 @@ struct SettingsView: View {
             }
         }
         .gradientBackground()
+        .onReceive(NotificationCenter.default.publisher(for: .navigateToHome)) { _ in
+            dismiss()
+        }
         
     }
+    
 }
 
 #Preview {

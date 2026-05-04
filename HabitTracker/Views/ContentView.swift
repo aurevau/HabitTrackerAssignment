@@ -18,18 +18,23 @@ struct ContentView: View {
     
     @State private var hasMigrated = false
     
+    @State private var navigateToHome = false
+    
     var body: some View {
         NavigationStack {
             ZStack {
                 VStack {
                     switch authViewModel.authState {
                     case .loggedIn:
-                        MainView()
+                        MainView(navigateToHome: $navigateToHome)
                     case .loggedOut:
                         LoginView()
                     case .guest:
-                        MainView()
+                        MainView(navigateToHome: $navigateToHome)
                     }
+                }
+                .onReceive(NotificationCenter.default.publisher(for: .navigateToHome)) { _ in
+                    navigateToHome = true
                 }
                
                 
