@@ -36,9 +36,22 @@ struct MapView: View {
                                 .fill(LinearGradient(colors: [Color.theme.cardGradientStart, Color.theme.cardGradientEnd], startPoint: .topLeading, endPoint: .bottomTrailing))
                                 .frame(width: 38, height: 44)
                             
-                            Image(systemName: "mappin")
-                                .foregroundStyle(.primaryText)
-                                .fontWeight(.bold)
+                            if let urlString = image(for: location, habits: habitViewModel.habits, authState: authViewModel.authState),
+                               let url = URL(string: urlString) {
+                                AsyncImage(url: url) {
+                                    phase in
+                                    phase.image?
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 44, height: 44)
+                                        .clipShape(Circle())
+                                }
+                            } else {
+                                Image(systemName: "mappin")
+                                    .foregroundStyle(.primaryText)
+                                    .fontWeight(.bold)
+                            }
+                          
                         }
                         .onTapGesture {
                             selectedLocation = location
@@ -52,11 +65,15 @@ struct MapView: View {
             MapPitchToggle()
         }
         .sheet(item: $selectedLocation) { location in
-            LocationDetailSheet(location: location)
+            if let habit = habit(for: location, habits: habitViewModel.habits) {
+                LocationDetailSheet(location: location, habit: habit)
+            }
+           
         }
         
 
     }
+    
 }
 
 #Preview {
