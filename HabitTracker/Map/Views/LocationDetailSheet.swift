@@ -14,23 +14,24 @@ struct LocationDetailSheet: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             
-               
-            Text(location.name)
-                .font(.title2)
-                .fontWeight(.bold)
-            
             
             if let urlString = habitImage,
                let url = URL(string: urlString) {
                 AsyncImage(url: url) { phase in
                     phase.image?
                         .resizable()
-                        .scaledToFit()
-                        .frame(maxWidth: .infinity)
+                        .scaledToFill()
+                        .frame(maxWidth: 150)
                         .frame(height: 150)
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                        .clipShape(Circle())
                 }
             }
+            
+            Text(location.name)
+                .font(.title2)
+                .fontWeight(.bold)
+            Text(habit.description)
+                .font(.caption)
          
             Text("Genomförd:")
                 .font(.subheadline)
