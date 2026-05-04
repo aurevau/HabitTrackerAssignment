@@ -8,6 +8,7 @@
 import Foundation
 import Observation
 import CoreLocation
+import UIKit
 
 @Observable
 class HabitViewModel {
@@ -31,6 +32,9 @@ class HabitViewModel {
             habits[index].locations.removeAll {
                         calendar.isDateInToday($0.date)
             }
+            habits[index].images.removeAll {
+                calendar.isDateInToday($0.date)
+            }
             
         } else {
             habits[index].completedDates.append(Date())
@@ -42,7 +46,7 @@ class HabitViewModel {
             }
         }
                 
-        await updateHabit(userId: userId, habit: habits[index])
+        await updateHabit(userId: userId, habit: habits[index], habitImage: nil)
 
     }
     
@@ -82,14 +86,22 @@ class HabitViewModel {
         }
     }
     
-    func updateHabit(userId: String, habit: Habit) async {
+    func updateHabit(userId: String, habit: Habit, habitImage: UIImage?) async {
         errorMessage = ""
         do {
-            try await repository.updateHabit(userId: userId, habit: habit)
+            try await repository.updateHabit(userId: userId, habit: habit, habitImage: habitImage)
         } catch {
             errorMessage = error.localizedDescription
         }
         
+    }
+    
+    func addImageToHabit(userId: String, habit: Habit, image: UIImage) async {
+        guard let index = habits.firstIndex(where: {$0.id == habit.id}) else {return}
+        
+        await updateHabit(userId: userId, habit: habits[index], habitImage: image)
+        
+        await loadHabits(userId: userId)
     }
     
     
