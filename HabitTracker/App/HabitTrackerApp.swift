@@ -13,6 +13,8 @@ import MapKit
 struct HabitTrackerApp: App {
     @State private var locationManager = CLLocationManager()
     
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    
     init() {
         FirebaseApp.configure()
     }
