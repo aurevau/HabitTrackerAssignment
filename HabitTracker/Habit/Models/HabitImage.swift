@@ -6,9 +6,9 @@
 //
 
 import Foundation
-struct Image: Codable, Equatable, Identifiable {
+struct HabitImage: Codable, Equatable, Identifiable {
     var id: UUID = UUID()
-    var image: String? = nil
+    var habitImage: String? = nil
     var date: Date
     
 }
