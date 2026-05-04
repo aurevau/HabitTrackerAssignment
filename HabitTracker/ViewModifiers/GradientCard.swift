@@ -9,9 +9,11 @@ import Foundation
 import SwiftUI
 
 struct GradientCard: ViewModifier {
+    var isCompleted: Bool = false
     func body(content: Content) -> some View {
         content
             .background(
+                isCompleted ? LinearGradient(colors: [Color.green.opacity(0.3), Color.green.opacity(0.5)], startPoint: .leading, endPoint: .trailing) :
             LinearGradient(colors: [Color.theme.cardGradientEnd, Color.theme.cardGradientStart], startPoint: .leading, endPoint: .trailing)
             )
             .cornerRadius(12)
@@ -21,8 +23,8 @@ struct GradientCard: ViewModifier {
 
 
 extension View {
-    func gradientCard() -> some View {
-        self.modifier(GradientCard())
+    func gradientCard(isCompleted: Bool = false) -> some View {
+        self.modifier(GradientCard(isCompleted: isCompleted))
     }
 }
 
@@ -41,8 +43,5 @@ extension Shape {
                         )
         )
     }
-    
-    func darkCard() -> some View {
-        self.fill(Color.theme.cardBackground)
-    }
+
 }
