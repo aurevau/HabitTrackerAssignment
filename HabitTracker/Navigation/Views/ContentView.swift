@@ -27,12 +27,19 @@ struct ContentView: View {
                     switch authViewModel.authState {
                     case .loggedIn:
                         MainView(navigateToHome: $navigateToHome)
+                            .transition(.move(edge: .trailing))
                     case .loggedOut:
                         LoginView()
+                            .transition(.move(edge: .bottom))
                     case .guest:
                         MainView(navigateToHome: $navigateToHome)
+                            .transition(.move(edge: .trailing))
+                    case .firstTimeUser:
+                        IntroView()
+                            .transition(.scale.combined(with: .opacity))
                     }
                 }
+                .animation(.easeInOut(duration: 0.3), value: authViewModel.authState)
                 .onReceive(NotificationCenter.default.publisher(for: .navigateToHome)) { _ in
                     navigateToHome = true
                 }
