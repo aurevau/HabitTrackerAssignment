@@ -66,7 +66,7 @@ class UserRepositoryImpl {
             ])
         }
         
-        print("✅ Image compressed: \(imageData.count) bytes")
+        print("Image compressed: \(imageData.count) bytes")
         
         let ref = Storage.storage().reference().child("profile_images/\(userId).jpg")
         
