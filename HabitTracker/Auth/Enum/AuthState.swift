@@ -11,4 +11,5 @@ enum AuthState: String {
     case loggedIn = "Inloggad"
     case loggedOut = "Utloggad"
     case guest = "Guest"
+    case firstTimeUser = "First Time User"
 }

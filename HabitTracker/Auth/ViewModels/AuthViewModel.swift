@@ -11,7 +11,7 @@ import FirebaseAuth
 
 @Observable
 class AuthViewModel {
-    var authState: AuthState = .guest
+    var authState: AuthState = .firstTimeUser
     var username = ""
     var email = ""
     var confirmEmail = ""
@@ -30,9 +30,25 @@ class AuthViewModel {
     
     private let authRepo = AuthRepositoryImpl()
     
+    private let hasSeenIntroKey = "hasSeenIntro"
+    
     init() {
-        authState = authRepo.isUserSignedIn() ? .loggedIn : .loggedOut
         
+        let hasSeenIntro = UserDefaults.standard.bool(forKey: hasSeenIntroKey)
+        
+        if hasSeenIntro {
+            authState = authRepo.isUserSignedIn() ? .loggedIn : .loggedOut
+
+        } else {
+            authState = .firstTimeUser
+        }
+     
+        
+    }
+    
+    func completeIntro() {
+        UserDefaults.standard.set(true, forKey: hasSeenIntroKey)
+        authState = .loggedOut
     }
     
     func login() async {
