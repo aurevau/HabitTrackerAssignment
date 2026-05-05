@@ -39,14 +39,38 @@ class UserRepositoryImpl {
             .setData(from: newUser)
     }
     
+    func updateUserToDatabase(profileImage: UIImage? = nil, userId: String) async throws {
+      
+        if let image = profileImage {
+           let imageUrl = try await uploadProfileImage(image: image, userId: userId)
+            
+            let data: [String: Any] = [
+                "profileImageUrl": imageUrl
+            ]
+            
+            try await db.collection("users")
+                .document(userId)
+                .setData(data, merge: true)
+        }
+    }
+    
     func uploadProfileImage(image: UIImage, userId: String) async throws -> String {
-        guard let imageData = image.jpegData(compressionQuality: 0.8) else {
-            throw URLError(.badServerResponse)
+        // Komprimera på background thread för att undvika freeze 
+        let imageData = await Task.detached(priority: .userInitiated) {
+            return image.jpegData(compressionQuality: 0.7)
+        }.value
+        
+        guard let imageData = imageData else {
+            throw NSError(domain: "ImageError", code: -1, userInfo: [
+                NSLocalizedDescriptionKey: "Failed to convert image to JPEG"
+            ])
         }
         
-        let ref = Storage.storage().reference().child("profile_images/\(userId)")
+        print("✅ Image compressed: \(imageData.count) bytes")
         
-        let result = try await ref.putDataAsync(imageData)
+        let ref = Storage.storage().reference().child("profile_images/\(userId).jpg")
+        
+        _ = try await ref.putDataAsync(imageData)
         
         let url = try await ref.downloadURL()
         
