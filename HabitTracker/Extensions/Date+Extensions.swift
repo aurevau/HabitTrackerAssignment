@@ -22,7 +22,7 @@ extension Date {
         return formatter.string(from: self).capitalized
     }
     
-    func getCurrentWEek() -> [Date] {
+    func getCurrentWeek() -> [Date] {
         let calendar = Calendar.current
         var calendar_sv = calendar
         calendar_sv.firstWeekday = 2

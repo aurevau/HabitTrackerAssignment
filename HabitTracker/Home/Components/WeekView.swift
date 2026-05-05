@@ -14,7 +14,7 @@ struct WeekView: View {
         ScrollViewReader {proxy in
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 12) {
-                    ForEach(Date().getCurrentWEek(), id: \.self) {date in
+                    ForEach(Date().getCurrentWeek(), id: \.self) {date in
                         
                         WeekDayView(date: date, isToday: date.isToday, completionPercentage: completionPercentage(for: date))
                             .id(date)
@@ -24,7 +24,7 @@ struct WeekView: View {
                 
             }
             .onAppear {
-                if let today = Date().getCurrentWEek().first(where: {$0.isToday }) {
+                if let today = Date().getCurrentWeek().first(where: {$0.isToday }) {
                     withAnimation {
                         proxy.scrollTo(today, anchor: .center)
                     }
