@@ -22,14 +22,14 @@ class HabitLocalViewModel {
     
     @MainActor
     init(inMemory: Bool) {
-    
+        
         do {
             
             let configuration = ModelConfiguration(isStoredInMemoryOnly: inMemory)
             let container = try ModelContainer(for: HabitLocal.self, configurations: configuration)
             modelContainer = container
             
-           
+            
             modelContext = container.mainContext
             modelContext?.autosaveEnabled = true
             
@@ -62,46 +62,46 @@ class HabitLocalViewModel {
     
     func saveHabit(name: String, description: String) {
         guard let modelContext = modelContext else { return }
-            
+        
         let habit = HabitLocal(name: name, description: description)
-            modelContext.insert(habit)
-            
-            do {
-                try modelContext.save()
-                queryHabits()
-            } catch {
-                errorMessage = error.localizedDescription
-            }
+        modelContext.insert(habit)
+        
+        do {
+            try modelContext.save()
+            queryHabits()
+        } catch {
+            errorMessage = error.localizedDescription
+        }
         
     }
     
     func toggleToday(for habit: HabitLocal) {
-            let calendar = Calendar.current
-            
-            if let todayIndex = habit.completedDates.firstIndex(where: {
-                calendar.isDateInToday($0)
-            }) {
-                habit.completedDates.remove(at: todayIndex)
-                habit.locations.removeAll {
-                    calendar.isDateInToday($0.date)
-                }
-                
-                save()
-                
-            } else {
-                habit.completedDates.append(Date())
-                
-                Task {
-                    if let location = try? await CLLocationUpdate.currentLocation() {
-                        let newLocation = Location(name: habit.name, latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, date: Date())
-                        
-                        habit.locations.append(newLocation)
-                    }
-                    save()
-                }
+        let calendar = Calendar.current
+        
+        if let todayIndex = habit.completedDates.firstIndex(where: {
+            calendar.isDateInToday($0)
+        }) {
+            habit.completedDates.remove(at: todayIndex)
+            habit.locations.removeAll {
+                calendar.isDateInToday($0.date)
             }
             
+            save()
+            
+        } else {
+            habit.completedDates.append(Date())
+            
+            Task {
+                if let location = try? await CLLocationUpdate.currentLocation() {
+                    let newLocation = Location(name: habit.name, latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, date: Date())
+                    
+                    habit.locations.append(newLocation)
+                }
+                save()
+            }
         }
+        
+    }
     
     private func save() {
         do {

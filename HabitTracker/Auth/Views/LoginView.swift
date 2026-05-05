@@ -24,19 +24,19 @@ struct LoginView: View {
                     .font(.system(size: 60))
                 
                 TextField("", text: $authVm.email,
-                    prompt: Text("Email").foregroundColor(.gray))
-                    .autocapitalization(.none)
-                    .autocorrectionDisabled()
-                    .modifier(TextFieldModifier())
-                    .foregroundStyle(.primaryText)
+                          prompt: Text("Email").foregroundColor(.gray))
+                .autocapitalization(.none)
+                .autocorrectionDisabled()
+                .modifier(TextFieldModifier())
+                .foregroundStyle(.primaryText)
                 
                 SecureField("", text: $authVm.password,
-                    prompt: Text("Lösenord").foregroundColor(.gray))
-                    .autocorrectionDisabled()
-                    .autocapitalization(.none)
-                    .foregroundStyle(.primaryText)
-                    .modifier(TextFieldModifier())
-                   
+                            prompt: Text("Lösenord").foregroundColor(.gray))
+                .autocorrectionDisabled()
+                .autocapitalization(.none)
+                .foregroundStyle(.primaryText)
+                .modifier(TextFieldModifier())
+                
                 
                 if !authViewModel.errorMessage.isEmpty {
                     Text(authViewModel.errorMessage)
@@ -63,14 +63,14 @@ struct LoginView: View {
                 
                 Button {
                     showRegisterSheet = true
-                        
+                    
                 } label: {
                     Text("Registrera dig")
-                        
+                    
                 }
                 .modifier(OutlineButtonModifierReversedColors())
                 
-               
+                
                 Button {
                     authViewModel.continueAsGuest()
                 } label: {
@@ -80,7 +80,7 @@ struct LoginView: View {
                 }
                 
             }
-    
+            
         }
         .sheet(isPresented: $showRegisterSheet) {
             RegisterView()

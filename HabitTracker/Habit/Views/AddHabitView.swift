@@ -35,21 +35,21 @@ struct AddHabitView: View {
                         Spacer()
                     }
                     .padding()
-               
+                    
                     
                     
                     TextField("", text: $habitName,
-                        prompt: Text("Titel på din vana").foregroundColor(.gray))
-
-                        .modifier(TextFieldModifier())
-                        .foregroundStyle(.primaryText)
+                              prompt: Text("Titel på din vana").foregroundColor(.gray))
+                    
+                    .modifier(TextFieldModifier())
+                    .foregroundStyle(.primaryText)
                     
                     
                     TextField("", text: $habitDescription,
                               prompt: Text("Beskriv din vana mer").foregroundColor(.gray), axis: .vertical)
-                        .modifier(TextFieldModifier())
-                        .foregroundStyle(.primaryText)
-                  
+                    .modifier(TextFieldModifier())
+                    .foregroundStyle(.primaryText)
+                    
                     
                     Button {
                         if isGuest {
@@ -58,8 +58,8 @@ struct AddHabitView: View {
                             Task {
                                 await habitViewModel.saveHabit(userId: authViewModel.currentUserId, habit: Habit(id: UUID().uuidString, name: habitName, description: habitDescription, completedDates: []))
                             }
-                           
-                          
+                            
+                            
                         }
                         dismiss()
                     } label: {
@@ -79,7 +79,7 @@ struct AddHabitView: View {
                 
             }
         }
-      
+        
     }
 }
 
@@ -87,5 +87,5 @@ struct AddHabitView: View {
     NavigationStack {
         AddHabitView()
     }
-
+    
 }

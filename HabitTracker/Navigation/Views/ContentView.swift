@@ -36,10 +36,7 @@ struct ContentView: View {
                 .onReceive(NotificationCenter.default.publisher(for: .navigateToHome)) { _ in
                     navigateToHome = true
                 }
-               
                 
-                
-               
             }
             .gradientBackground()
         }
@@ -50,7 +47,7 @@ struct ContentView: View {
         .onChange(of: authViewModel.authState) {oldValue, newValue in
             if oldValue == .guest && newValue == .loggedIn && !hasMigrated {
                 Task {
-                    await migrateHabitsToFirebase()
+                    await migrateHabitsToFirebase(habitLocalViewModel: habitLocalViewModel, userId: authViewModel.currentUserId, habitViewModel: habitViewModel)
                     hasMigrated = true
                 }
             }
@@ -59,24 +56,6 @@ struct ContentView: View {
             }
         }
         
-    }
-    
-    private func migrateHabitsToFirebase() async {
-        let localHabits = habitLocalViewModel.habits
-        
-        guard !localHabits.isEmpty else {
-            return
-        }
-        
-        await habitViewModel.migrateLocalHabits(localHabits: localHabits, userId: authViewModel.currentUserId)
-        
-        if habitViewModel.errorMessage == nil {
-            for habit in localHabits {
-                habitLocalViewModel.deleteHabit(habit)
-            }
-        } else {
-            //Migration Failed
-        }
     }
 }
 

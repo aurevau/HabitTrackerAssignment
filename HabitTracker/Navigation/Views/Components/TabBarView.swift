@@ -9,7 +9,6 @@ import SwiftUI
 
 struct TabBarView: View {
     @Binding var selectedTab: TabSelection
-    var action: () -> Void
     
     @State var showAddHabitSheet: Bool = false
     
@@ -18,7 +17,7 @@ struct TabBarView: View {
             
             Arc()
                 .fill(LinearGradient(colors: [Color.theme.cardGradientEnd,
-                                    Color.theme.cardGradientMid,
+                                              Color.theme.cardGradientMid,
                                               Color.theme.cardGradientStart], startPoint: .topLeading, endPoint: .bottomTrailing))
                 .frame(height: 88)
                 .frame(maxWidth: .infinity)
@@ -44,19 +43,19 @@ struct TabBarView: View {
                 ZStack {
                     HeadTabShape()
                         .fill(LinearGradient(colors: [Color.theme.cardGradientEnd,
-                                            Color.theme.cardGradientMid,
+                                                      Color.theme.cardGradientMid,
                                                       Color.theme.cardGradientStart], startPoint: .topLeading, endPoint: .bottomTrailing))
                         .frame(height: 88)
                     
                     Button{
-                       showAddHabitSheet = true
+                        showAddHabitSheet = true
                     } label: {
                         Image(systemName:    "plus.app")
                             .resizable()
                             .frame(width: 30, height: 30)
                     }
                 }
-               
+                
                 
                 // Navigation Button
                 Button {
@@ -74,7 +73,7 @@ struct TabBarView: View {
         .sheet(isPresented: $showAddHabitSheet) {
             AddHabitView()
         }
-
+        
         
         
     }
@@ -82,5 +81,5 @@ struct TabBarView: View {
 }
 
 #Preview {
-    TabBarView(selectedTab: .constant(.home), action: {})
+    TabBarView(selectedTab: .constant(.home))
 }

@@ -15,11 +15,11 @@ struct HomeView: View {
     @Environment(UserViewModel.self) private var userViewModel
     
     
-   
+    
     
     var body: some View {
         NavigationStack {
-             
+            
             VStack {
                 HStack() {
                     VStack(alignment: .leading) {
@@ -42,7 +42,7 @@ struct HomeView: View {
                         }
                     }
                     Spacer()
-                   
+                    
                 }
                 .padding()
                 Spacer()
@@ -56,7 +56,7 @@ struct HomeView: View {
                             indexSet.forEach {index in
                                 habitLocalViewModel.deleteHabit(habitLocalViewModel.habits[index])
                             }
-                           
+                            
                         }
                     }
                     else {
@@ -75,7 +75,7 @@ struct HomeView: View {
                 }
                 .listStyle(.plain)
                 .scrollContentBackground(.hidden) 
-
+                
                 
             }
             .toolbar {
@@ -90,11 +90,11 @@ struct HomeView: View {
             
             
             
-               
             
             
-        
-    
+            
+            
+            
         }
         .task {
             if authViewModel.authState != .guest {
@@ -110,7 +110,7 @@ struct HomeView: View {
         }
         
     }
-       
+    
 }
 
 #Preview {

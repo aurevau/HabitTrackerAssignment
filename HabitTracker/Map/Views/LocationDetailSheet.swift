@@ -32,15 +32,15 @@ struct LocationDetailSheet: View {
                 .fontWeight(.bold)
             Text(habit.description)
                 .font(.caption)
-         
+            
             Text("Genomförd:")
                 .font(.subheadline)
                 .fontWeight(.semibold)
             Label(
                 location.date.formatted(date: .abbreviated, time: .shortened),
                 systemImage: "calendar"
-                )
-                .foregroundStyle(.secondary)
+            )
+            .foregroundStyle(.secondary)
             
             Spacer()
             

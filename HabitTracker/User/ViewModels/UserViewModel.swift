@@ -21,25 +21,25 @@ class UserViewModel {
     func getUserDetails(userId: String) async  {
         errorMessage = ""
         do {
-             currentUser = try await userRepo.getUserDetails(userId: userId)
-        
+            currentUser = try await userRepo.getUserDetails(userId: userId)
+            
         } catch {
             errorMessage = error.localizedDescription
-         
+            
         }
     }
     
     func saveUserToDatabase(username: String, email: String, profileImage: UIImage? = nil) async {
-            do {
-                try await userRepo.saveUserToDatabase(
-                    username: username,
-                    email: email,
-                    profileImage: profileImage
-                )
-            } catch {
-                errorMessage = error.localizedDescription
-            }
+        do {
+            try await userRepo.saveUserToDatabase(
+                username: username,
+                email: email,
+                profileImage: profileImage
+            )
+        } catch {
+            errorMessage = error.localizedDescription
         }
+    }
     
     
 }

@@ -1,5 +1,5 @@
 //
-//  NotificationsExtension.swift
+//  Notifications+Extension.swift
 //  HabitTracker
 //
 //  Created by Aurelie Vaudan APP25 on 2026-05-04.
@@ -16,8 +16,8 @@ extension SettingsView {
         content.userInfo = ["destination": "homeView"]
         
         var dateComponents = DateComponents()
-        dateComponents.hour = 14
-        dateComponents.minute = 46
+        dateComponents.hour = 19
+        dateComponents.minute = 59
         
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
         

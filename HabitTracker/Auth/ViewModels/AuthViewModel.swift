@@ -32,27 +32,27 @@ class AuthViewModel {
     
     init() {
         authState = authRepo.isUserSignedIn() ? .loggedIn : .loggedOut
-      
+        
     }
     
     func login() async {
         guard validateLogin() else {
             return
         }
-       
-            isLoading = true
-            do {
-                try await authRepo.login(email: email, password: password)
-                authState = .loggedIn
-                
-            } catch {
-                isLoading = false
-                errorMessage = error.localizedDescription
-                authState = .loggedOut
-            }
+        
+        isLoading = true
+        do {
+            try await authRepo.login(email: email, password: password)
+            authState = .loggedIn
+            
+        } catch {
             isLoading = false
-       
-           
+            errorMessage = error.localizedDescription
+            authState = .loggedOut
+        }
+        isLoading = false
+        
+        
     }
     
     func register() async {
@@ -60,18 +60,18 @@ class AuthViewModel {
             return
         }
         
-            isLoading = true
-            do {
-                let _ = try await authRepo.register(email: email, password: password, username: username)
-                          authState = .loggedIn
-                          registerSuccess = true
-                
-            } catch {
-                errorMessage = error.localizedDescription
-                registerSuccess = false
-            }
+        isLoading = true
+        do {
+            let _ = try await authRepo.register(email: email, password: password, username: username)
+            authState = .loggedIn
+            registerSuccess = true
             
-            isLoading = false
+        } catch {
+            errorMessage = error.localizedDescription
+            registerSuccess = false
+        }
+        
+        isLoading = false
     }
     
     func validateRegistration() -> Bool {
@@ -114,7 +114,7 @@ class AuthViewModel {
             }
             
         }
-
+        
     }
     
     func continueAsGuest() {
@@ -126,7 +126,7 @@ class AuthViewModel {
         errorMessage = ""
         
         guard !email.trimmingCharacters(in: .whitespaces).isEmpty,
-        !password.trimmingCharacters(in: .whitespaces).isEmpty else {
+              !password.trimmingCharacters(in: .whitespaces).isEmpty else {
             errorMessage = "Vänligen fyll i alla fält!"
             return false
         }
