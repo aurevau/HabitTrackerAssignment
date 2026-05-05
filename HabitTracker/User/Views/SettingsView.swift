@@ -12,11 +12,14 @@ struct SettingsView: View {
     @Environment(AuthViewModel.self) private var authViewModel
     @Environment(\.dismiss) private var dismiss
     
+    
+    @State private var notificationDate: Date = Date()
+    
     @AppStorage("isNotificationAuhtorized") var isNotificationAuthorized = false
     
     var body: some View {
         ZStack {
-            VStack {
+            VStack(alignment: .leading) {
                 
                 HStack {
                     Image("settings")
@@ -27,6 +30,7 @@ struct SettingsView: View {
                     Spacer()
                 }
                 
+                
                 Toggle(isOn: $isNotificationAuthorized, label: {
                     Text("Slå på Notiser")
                         .foregroundColor(.primaryText)
@@ -35,12 +39,23 @@ struct SettingsView: View {
                 
                 .onChange(of: isNotificationAuthorized) {_, newValue in
                     if newValue {
-                        requestNotificationAuthorization()
+                        requestNotificationAuthorization(date: notificationDate)
                     } else {
-                        sendNotification()
+                        cancelNotification()
                     }
                 }
                 .padding()
+                
+                if isNotificationAuthorized {
+                    DatePicker("Välj tid för dina påminnelser", selection: $notificationDate, displayedComponents: [.hourAndMinute])
+                        .transition(.blurReplace)
+                        .frame(maxWidth: .infinity)
+                        .padding(.horizontal)
+                        .onChange(of: notificationDate) {_, newDate in
+                            sendNotification(date: newDate)
+                        }
+                }
+                
                 Spacer()
                 Button {
                     authViewModel.logOut()
@@ -55,12 +70,15 @@ struct SettingsView: View {
                 .modifier(ButtonModifier())
             }
         }
+        .animation(.snappy, value: isNotificationAuthorized)
         .gradientBackground()
         .onReceive(NotificationCenter.default.publisher(for: .navigateToHome)) { _ in
             dismiss()
         }
         
     }
+    
+    
     
 }
 

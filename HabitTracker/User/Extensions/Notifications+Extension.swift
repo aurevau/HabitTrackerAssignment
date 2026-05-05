@@ -8,7 +8,9 @@
 import UserNotifications
 
 extension SettingsView {
-    func sendNotification() {
+ 
+    func sendNotification(date: Date) {
+    
         let content = UNMutableNotificationContent()
         content.title = "Habit Tracker"
         content.subtitle = "Har du genomför dagens vanor?"
@@ -16,8 +18,8 @@ extension SettingsView {
         content.userInfo = ["destination": "homeView"]
         
         var dateComponents = DateComponents()
-        dateComponents.hour = 19
-        dateComponents.minute = 59
+        dateComponents.hour = Calendar.current.component(.hour, from: date)
+        dateComponents.minute = Calendar.current.component(.minute, from: date)
         
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
         
@@ -29,7 +31,7 @@ extension SettingsView {
         
     }
     
-    func requestNotificationAuthorization() {
+    func requestNotificationAuthorization(date: Date) {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
             if let error = error {
                 print("error sending notification: \(error.localizedDescription)")
@@ -38,11 +40,15 @@ extension SettingsView {
             
             if granted {
                 print("notification permission granted")
-                sendNotification()
+                sendNotification(date: date)
             } else {
                 print("notification permission denied")
             }
         }
+    }
+    
+    func cancelNotification() {
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["dailyHabitreminder"])
     }
     
     
