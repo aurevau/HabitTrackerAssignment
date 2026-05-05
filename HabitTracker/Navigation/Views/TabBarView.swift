@@ -9,7 +9,6 @@ import SwiftUI
 
 struct TabBarView: View {
     @Binding var selectedTab: TabSelection
-    var action: () -> Void
     
     @State var showAddHabitSheet: Bool = false
     
@@ -82,5 +81,5 @@ struct TabBarView: View {
 }
 
 #Preview {
-    TabBarView(selectedTab: .constant(.home), action: {})
+    TabBarView(selectedTab: .constant(.home))
 }

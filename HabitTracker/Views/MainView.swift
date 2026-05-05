@@ -12,7 +12,6 @@ struct MainView: View {
     @Environment(AuthViewModel.self) private var authViewModel
     
     @State private var selectedTab: TabSelection = .home
-    @State private var showSidebar = false
     @Binding var navigateToHome: Bool
     var body: some View {
         
@@ -33,12 +32,8 @@ struct MainView: View {
 
                 VStack(spacing: 0) {
                     Spacer()
-                    TabBarView(selectedTab: $selectedTab, action: {
-                        showSidebar.toggle()
-                    })
-                    
+                    TabBarView(selectedTab: $selectedTab)
                 }
-                
             }
             .ignoresSafeArea(edges: .bottom)
             .gradientBackground()
