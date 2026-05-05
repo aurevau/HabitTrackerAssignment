@@ -41,5 +41,13 @@ class UserViewModel {
         }
     }
     
+    func updateUserToDatabase(profileImage: UIImage? = nil, userId: String) async {
+        do {
+            try await userRepo.updateUserToDatabase(profileImage: profileImage, userId: userId)
+        } catch {
+            errorMessage = error.localizedDescription
+        }
+    }
+    
     
 }
