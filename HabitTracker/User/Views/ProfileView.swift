@@ -15,7 +15,7 @@ struct ProfileView: View {
     
     @State private var showLoginSheet: Bool = false
     
-  
+    
     
     var body: some View {
         
@@ -39,8 +39,8 @@ struct ProfileView: View {
                 }
             } else {
                 VStack() {
-                
-                    }
+                    
+                }
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
                         NavigationLink {
@@ -53,67 +53,67 @@ struct ProfileView: View {
                 .task {
                     await userViewModel.getUserDetails(userId: authViewModel.currentUserId)
                 }
-                    HStack {
-                        Image("profil")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 120, height: 120)
-                        
-                        Spacer()
-                    }
-                    if let user = userViewModel.currentUser {
-                        
-                        if let urlString = user.profileImageUrl,
-                           let url = URL(string: urlString) {
-                            AsyncImage(url: url) { phase in
-                                phase.image?
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 100, height: 100)
-                                    .clipShape(Circle())
-                                    .padding()
-                                
-                            }
-                            
-                        } else {
-                            Image(systemName: "person.circle.fill")
-                                .resizable()
-                                .frame(width: 100, height: 100)
-                                .foregroundStyle(.gray)
-                                .padding()
-                        }
-                        
-                        VStack(alignment: .leading) {
-            
-                            
-                                
-                            Text("Medlem sedan:  \(user.formattedJoinedDate)")
-                                .font(.caption)
-                                .foregroundColor(.gray)
-                            
-                            Text("Username: \(user.username)")
-                                .font(.subheadline)
-                                .foregroundColor(.primaryText)
-                            
-                            Text("Email: \(user.email)")
-                                .font(.subheadline)
-                                .foregroundColor(.primaryText)
-                        }
-                       
-                    }
-                    
-                    
+                HStack {
+                    Image("profil")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 120, height: 120)
                     
                     Spacer()
                 }
-               
-            
+                if let user = userViewModel.currentUser {
+                    
+                    if let urlString = user.profileImageUrl,
+                       let url = URL(string: urlString) {
+                        AsyncImage(url: url) { phase in
+                            phase.image?
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 100, height: 100)
+                                .clipShape(Circle())
+                                .padding()
+                            
+                        }
+                        
+                    } else {
+                        Image(systemName: "person.circle.fill")
+                            .resizable()
+                            .frame(width: 100, height: 100)
+                            .foregroundStyle(.gray)
+                            .padding()
+                    }
+                    
+                    VStack(alignment: .leading) {
+                        
+                        
+                        
+                        Text("Medlem sedan:  \(user.formattedJoinedDate)")
+                            .font(.caption)
+                            .foregroundColor(.gray)
+                        
+                        Text("Username: \(user.username)")
+                            .font(.subheadline)
+                            .foregroundColor(.primaryText)
+                        
+                        Text("Email: \(user.email)")
+                            .font(.subheadline)
+                            .foregroundColor(.primaryText)
+                    }
+                    
+                }
                 
                 
+                
+                Spacer()
             }
             
+            
+            
+            
         }
+        
     }
+}
 
 
 #Preview {
@@ -121,5 +121,5 @@ struct ProfileView: View {
         ProfileView()
             .environment(AuthViewModel())
     }
-
+    
 }

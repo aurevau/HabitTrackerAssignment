@@ -18,21 +18,21 @@ struct LocalHabitRow: View {
             
             Button {
                 habitLocalViewModel.toggleToday(for: habit)
-            
+                
             } label: {
                 Image(systemName: habit.isCompletedToday ? "checkmark.circle.fill" : "circle")
                     .foregroundStyle(habit.isCompletedToday ? .green : .primaryText)
             }
-          
-          
+            
+            
             
             VStack(alignment: .leading){
                 Text(habit.name)
                     .fontWeight(.semibold)
-                  
+                
                 Text(habit.habitDescription)
                     .font(.caption)
-    
+                
             }
             .foregroundColor(.primaryText)
             

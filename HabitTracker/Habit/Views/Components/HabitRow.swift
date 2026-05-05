@@ -24,8 +24,8 @@ struct HabitRow: View {
             Button {
                 Task {
                     await habitViewModel.toggleToday(for: habit, userId: authViewModel.currentUserId)
-               
-                     if habit.isCompletedToday {
+                    
+                    if habit.isCompletedToday {
                         showingCamera = false
                     } else {
                         showingCamera = true
@@ -34,15 +34,15 @@ struct HabitRow: View {
             } label: {
                 Image(systemName: habit.isCompletedToday ? "checkmark.circle.fill" : "circle")
                     .foregroundStyle(habit.isCompletedToday ? .green : .primaryText)
-              
+                
             }
             VStack(alignment: .leading){
                 Text(habit.name)
                     .fontWeight(.semibold)
-                  
+                
                 Text(habit.description)
                     .font(.caption)
-    
+                
             }
             .foregroundColor(.primaryText)
             

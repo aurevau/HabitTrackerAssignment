@@ -19,7 +19,7 @@ struct RegisterView: View {
     var body: some View {
         
         @Bindable var authVm = authViewModel
-
+        
         ZStack {
             VStack(spacing: 20) {
                 Spacer()
@@ -27,7 +27,7 @@ struct RegisterView: View {
                     .resizable()
                     .scaledToFit()
                     .font(.system(size: 60))
-              
+                
                 if let selectedImage = selectedImage {
                     Image(uiImage: selectedImage)
                         .resizable()
@@ -60,39 +60,39 @@ struct RegisterView: View {
                 
                 
                 TextField("", text: $authVm.username,
-                prompt: Text("Username ").foregroundColor(.gray))
-                    .autocapitalization(.none)
-                    .autocorrectionDisabled()
-                    .modifier(TextFieldModifier())
-                    .foregroundStyle(.primaryText)
+                          prompt: Text("Username ").foregroundColor(.gray))
+                .autocapitalization(.none)
+                .autocorrectionDisabled()
+                .modifier(TextFieldModifier())
+                .foregroundStyle(.primaryText)
                 
                 TextField("", text: $authVm.email,
-                prompt: Text("Email").foregroundColor(.gray))
-                    .autocapitalization(.none)
-                    .autocorrectionDisabled()
-                    .modifier(TextFieldModifier())
-                    .foregroundStyle(.primaryText)
+                          prompt: Text("Email").foregroundColor(.gray))
+                .autocapitalization(.none)
+                .autocorrectionDisabled()
+                .modifier(TextFieldModifier())
+                .foregroundStyle(.primaryText)
                 
                 TextField("", text: $authVm.confirmEmail,
-                    prompt: Text("Bekräfta Email").foregroundColor(.gray))
-                    .autocapitalization(.none)
-                    .autocorrectionDisabled()
-                    .modifier(TextFieldModifier())
-                    .foregroundStyle(.primaryText)
+                          prompt: Text("Bekräfta Email").foregroundColor(.gray))
+                .autocapitalization(.none)
+                .autocorrectionDisabled()
+                .modifier(TextFieldModifier())
+                .foregroundStyle(.primaryText)
                 
                 SecureField("Lösenord", text: $authVm.password,
-                    prompt: Text("Lösenord").foregroundColor(.gray))
-                    .autocorrectionDisabled()
-                    .autocapitalization(.none)
-                    .modifier(TextFieldModifier())
-                    .foregroundStyle(.primaryText)
+                            prompt: Text("Lösenord").foregroundColor(.gray))
+                .autocorrectionDisabled()
+                .autocapitalization(.none)
+                .modifier(TextFieldModifier())
+                .foregroundStyle(.primaryText)
                 
                 SecureField("", text: $authVm.confirmPassword,
                             prompt: Text("Bekräfta Lösenord").foregroundColor(.gray))
-                    .autocorrectionDisabled()
-                    .autocapitalization(.none)
-                    .modifier(TextFieldModifier())
-                    .foregroundStyle(.primaryText)
+                .autocorrectionDisabled()
+                .autocapitalization(.none)
+                .modifier(TextFieldModifier())
+                .foregroundStyle(.primaryText)
                 
                 if !authViewModel.errorMessage.isEmpty {
                     Text(authViewModel.errorMessage)
@@ -107,16 +107,16 @@ struct RegisterView: View {
                 }
                 
                 Button {
-                   
+                    
                     Task {
                         await authViewModel.register()
                         
                         guard authViewModel.registerSuccess else { return }
-
-                         await userViewModel.saveUserToDatabase(username: authViewModel.username, email: authViewModel.email, profileImage: selectedImage)
+                        
+                        await userViewModel.saveUserToDatabase(username: authViewModel.username, email: authViewModel.email, profileImage: selectedImage)
                     }
                     
-                  
+                    
                 } label: {
                     if authViewModel.isLoading {
                         ProgressView()
@@ -129,7 +129,7 @@ struct RegisterView: View {
                 }
                 
                 Spacer()
-           
+                
                 
             }
         }

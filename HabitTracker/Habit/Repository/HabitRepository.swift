@@ -32,12 +32,12 @@ class HabitRepository {
     func updateHabit(userId: String, habit: Habit, habitImage: UIImage? = nil) async throws {
         
         var updatedHabit = habit
-       
+        
         if let image = habitImage {
             let imageUrl = try await uploadHabitPicture(image: image, userId: userId, habitId: habit.id)
             let locationId = habit.locations.first {
                 Calendar.current.isDateInToday($0.date)
-                       }?.id
+            }?.id
             let newImage = HabitImage(locationId: locationId, habitImage: imageUrl)
             updatedHabit.images.append(newImage)
         }
@@ -57,12 +57,12 @@ class HabitRepository {
                 ]
             },
             "images": updatedHabit.images.map {
-                    [
-                        "id": $0.id.uuidString,
-                        "habitImage": $0.habitImage ?? "",
-                        "locationId": $0.locationId?.uuidString ?? ""
-                    ]
-                }
+                [
+                    "id": $0.id.uuidString,
+                    "habitImage": $0.habitImage ?? "",
+                    "locationId": $0.locationId?.uuidString ?? ""
+                ]
+            }
         ]
         
         try await db.collection("users")
@@ -109,7 +109,7 @@ class HabitRepository {
                 guard let idString = image["id"] as? String else { return nil }
                 
                 let locationId = (image["locationId"] as? String).flatMap { UUID(uuidString: $0) }
-
+                
                 return HabitImage(
                     id: UUID(uuidString: idString) ?? UUID(),
                     locationId: UUID(uuidString: image["locationId"] as? String ?? ""),
@@ -142,8 +142,8 @@ class HabitRepository {
             throw URLError(.badServerResponse)
         }
         let filename = UUID().uuidString
-            let ref = Storage.storage().reference()
-                .child("habit_images/\(userId)/\(habitId)/\(filename).jpg")
+        let ref = Storage.storage().reference()
+            .child("habit_images/\(userId)/\(habitId)/\(filename).jpg")
         
         let result = try await ref.putDataAsync(imageData)
         let url = try await ref.downloadURL()

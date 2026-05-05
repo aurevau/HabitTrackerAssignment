@@ -29,7 +29,7 @@ struct MainView: View {
                     
                 }
                 .animation(.easeInOut, value: selectedTab)
-
+                
                 VStack(spacing: 0) {
                     Spacer()
                     TabBarView(selectedTab: $selectedTab)

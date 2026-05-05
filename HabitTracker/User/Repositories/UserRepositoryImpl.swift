@@ -28,9 +28,9 @@ class UserRepositoryImpl {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
         var imageUrl: String? = nil
-            if let image = profileImage {
-                imageUrl = try await uploadProfileImage(image: image, userId: uid)
-            }
+        if let image = profileImage {
+            imageUrl = try await uploadProfileImage(image: image, userId: uid)
+        }
         
         let newUser = User(id: uid, username: username, email: email, joined: Date().timeIntervalSince1970, profileImageUrl: imageUrl)
         
@@ -54,14 +54,14 @@ class UserRepositoryImpl {
     }
     
     
-
-
-   
-    
-    
-
     
     
     
-   
+    
+    
+    
+    
+    
+    
+    
 }

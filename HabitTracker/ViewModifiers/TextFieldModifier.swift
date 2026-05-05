@@ -17,6 +17,6 @@ struct TextFieldModifier: ViewModifier {
             .font(.subheadline)
             .background(Color.theme.bgLight)
             .cornerRadius(10)
-            
+        
     }
 }

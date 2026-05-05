@@ -37,7 +37,7 @@ extension HabitLocal {
         let today = calendar.startOfDay(for: Date())
         
         let daysSinceLatest = calendar.dateComponents([.day], from: latest, to: today).day ?? 0
-
+        
         if daysSinceLatest > 1 {
             return 0
         }

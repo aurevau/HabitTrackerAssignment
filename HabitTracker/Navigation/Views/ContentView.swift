@@ -36,7 +36,7 @@ struct ContentView: View {
                 .onReceive(NotificationCenter.default.publisher(for: .navigateToHome)) { _ in
                     navigateToHome = true
                 }
-               
+                
             }
             .gradientBackground()
         }
