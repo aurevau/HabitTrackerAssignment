@@ -48,7 +48,7 @@ extension SettingsView {
     }
     
     func cancelNotification() {
-        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["dailyHabitreminder"])
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["dailyHabitReminder"])
     }
     
     

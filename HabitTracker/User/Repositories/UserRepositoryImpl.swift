@@ -23,19 +23,19 @@ class UserRepositoryImpl {
     
     
     private var db = Firestore.firestore()
-    func saveUserToDatabase(username: String, email: String, profileImage: UIImage? = nil) async throws {
+    func saveUserToDatabase(username: String, email: String, profileImage: UIImage? = nil, userId: String) async throws {
         
-        guard let uid = Auth.auth().currentUser?.uid else { return }
+        
         
         var imageUrl: String? = nil
         if let image = profileImage {
-            imageUrl = try await uploadProfileImage(image: image, userId: uid)
+            imageUrl = try await uploadProfileImage(image: image, userId: userId)
         }
         
-        let newUser = User(id: uid, username: username, email: email, joined: Date().timeIntervalSince1970, profileImageUrl: imageUrl)
+        let newUser = User(id: userId, username: username, email: email, joined: Date().timeIntervalSince1970, profileImageUrl: imageUrl)
         
         try db.collection("users")
-            .document(uid)
+            .document(userId)
             .setData(from: newUser)
     }
     
