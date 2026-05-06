@@ -79,30 +79,30 @@ struct ProfileView: View {
                     Spacer()
                 }
                 if let user = userViewModel.currentUser {
-                if let selectedImage = selectedImage {
-                    Image(uiImage: selectedImage)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 100, height: 100)
-                        .clipShape(Circle())
-                } else if let urlString = user.profileImageUrl,
-                       let url = URL(string: urlString) {
-                    AsyncImage(url: url) { phase in
-                        if let image = phase.image {
-                            
-                            image
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 100, height: 100)
-                                .clipShape(Circle())
-                                .padding()
-                            
-                        } else {
-                            ProgressView()
-                                .frame(maxWidth: 200)
-                                .padding()
+                    if let selectedImage = selectedImage {
+                        Image(uiImage: selectedImage)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 100, height: 100)
+                            .clipShape(Circle())
+                    } else if let urlString = user.profileImageUrl,
+                              let url = URL(string: urlString) {
+                        AsyncImage(url: url) { phase in
+                            if let image = phase.image {
+                                
+                                image
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 100, height: 100)
+                                    .clipShape(Circle())
+                                    .padding()
+                                
+                            } else {
+                                ProgressView()
+                                    .frame(maxWidth: 200)
+                                    .padding()
+                            }
                         }
-                    }
                         
                     } else {
                         Image(systemName: "person.circle.fill")
@@ -124,18 +124,18 @@ struct ProfileView: View {
                     .onChange(of: selectedItem) {_, newItem in
                         guard let newItem = newItem else { return }
                         
-                            Task { @MainActor in 
-                                guard let data = try? await newItem.loadTransferable(type: Data.self),
-                                      let image = UIImage(data: data) else { return }
-                                
-                                selectedImage = image
-                            }
+                        Task { @MainActor in
+                            guard let data = try? await newItem.loadTransferable(type: Data.self),
+                                  let image = UIImage(data: data) else { return }
+                            
+                            selectedImage = image
                         }
+                    }
                     
                     if selectedImage != nil {
                         Button {
                             guard let image = selectedImage else { return }
-
+                            
                             Task {
                                 isUploading = true
                                 await userViewModel.updateUserToDatabase(profileImage: image, userId: authViewModel.currentUserId)
@@ -194,20 +194,11 @@ struct ProfileView: View {
                         .padding(.horizontal, 26)
                         .padding(.top)
                     }
-                    
-                    
                 }
-                
-                
                 
                 Spacer()
             }
-            
-            
-            
-            
         }
-        
     }
 }
 

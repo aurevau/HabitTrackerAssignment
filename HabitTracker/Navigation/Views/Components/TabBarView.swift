@@ -28,10 +28,8 @@ struct TabBarView: View {
             
             
             
-            
-            // Tab items
             HStack {
-                // Expand Button
+                
                 Button {
                     selectedTab = .home
                 } label: {
@@ -55,8 +53,6 @@ struct TabBarView: View {
                             .frame(width: 30, height: 30)
                     }
                 }
-                
-                
                 // Navigation Button
                 Button {
                     selectedTab = .profile
@@ -73,11 +69,7 @@ struct TabBarView: View {
         .sheet(isPresented: $showAddHabitSheet) {
             AddHabitView()
         }
-        
-        
-        
     }
-    
 }
 
 #Preview {

@@ -70,9 +70,6 @@ struct IntroView: View {
                 }
                 .modifier(ButtonModifier())
                 .padding(.bottom, 25)
-                
-                
-                
             }
         }
         .gradientBackground()
@@ -95,7 +92,7 @@ struct IntroView: View {
                     .shadow(color: .primaryText.opacity(0.2), radius: 1, x: -1, y: -1)
                     .padding(-3)
                     .opacity(selectedItem.id == item.id ? 1 : 0)
-
+                
             }
             .rotationEffect(.init(degrees: -item.rotation))
             .scaleEffect(isSelected ? 1.1 : item.scale, anchor: item.anchor)
@@ -116,7 +113,7 @@ struct IntroView: View {
         } else {
             activeIndex -= 1
         }
-       
+        
         
         if isForward {
             fromIndex = activeIndex - 1
@@ -125,8 +122,8 @@ struct IntroView: View {
             fromIndex = activeIndex + 1
             extraOffset = items[activeIndex].extraOffset
         }
-      
-       
+        
+        
         
         for index in items.indices {
             items[index].zindex = 0
@@ -152,7 +149,7 @@ struct IntroView: View {
                 items[activeIndex].anchor = .center
                 items[activeIndex].offset = .zero
                 
-               
+                
                 selectedItem = items[activeIndex]
             }
         }

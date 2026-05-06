@@ -21,7 +21,7 @@ class HabitViewModel {
     func toggleToday(for habit: Habit, userId: String) async {
         
         guard let index = habits.firstIndex(where: { $0.id == habit.id }) else { return }
-
+        
         
         let calendar = Calendar.current
         
@@ -30,45 +30,45 @@ class HabitViewModel {
         }) {
             habits[index].completedDates.remove(at: todayIndex)
             let todayLocationId = habits[index].locations.first {
-                       calendar.isDateInToday($0.date)
-                   }?.id
-                   
-                   habits[index].locations.removeAll {
-                       calendar.isDateInToday($0.date)
-                   }
+                calendar.isDateInToday($0.date)
+            }?.id
+            
+            habits[index].locations.removeAll {
+                calendar.isDateInToday($0.date)
+            }
             
             if let locationId = todayLocationId {
-                       habits[index].images.removeAll {
-                           $0.locationId == locationId
-                       }
-                   }
+                habits[index].images.removeAll {
+                    $0.locationId == locationId
+                }
+            }
             
         } else {
             habits[index].completedDates.append(Date())
             
             let oldLocationId = habits[index].locations.first {
-                    calendar.isDateInToday($0.date)
-                }?.id
+                calendar.isDateInToday($0.date)
+            }?.id
             
             habits[index].locations.removeAll {
-                   calendar.isDateInToday($0.date)
-               }
+                calendar.isDateInToday($0.date)
+            }
             
             if let locationId = oldLocationId {
-                   habits[index].images.removeAll {
-                       $0.locationId == locationId
-                   }
-               }
-                
+                habits[index].images.removeAll {
+                    $0.locationId == locationId
+                }
+            }
+            
             if let location = try? await CLLocationUpdate.currentLocation() {
                 let newLocation = Location(name: habit.name, latitude: location.coordinate.latitude, longitude: location.coordinate.longitude, date: Date()
                 )
                 habits[index].locations.append(newLocation)
             }
         }
-                
+        
         await updateHabit(userId: userId, habit: habits[index], habitImage: nil)
-
+        
     }
     
     func loadHabits(userId: String) async {
@@ -95,13 +95,13 @@ class HabitViewModel {
         errorMessage = ""
         
         let habitToRemove = habits.first { $0.id == habitId }
-              habits.removeAll { $0.id == habitId }
+        habits.removeAll { $0.id == habitId }
         do {
             try await repository.deleteHabit(userId: userId, habitId: habitId)
         } catch {
             if let habit = habitToRemove {
-                            habits.append(habit)
-                        }
+                habits.append(habit)
+            }
             errorMessage = error.localizedDescription
             
         }
@@ -128,7 +128,7 @@ class HabitViewModel {
     
     func migrateLocalHabits(localHabits: [HabitLocal], userId: String) async  {
         errorMessage = ""
-  
+        
         do {
             try await repository.migrateLocalHabits(localHabits: localHabits, userId: userId)
             

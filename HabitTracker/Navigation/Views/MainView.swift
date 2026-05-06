@@ -14,7 +14,6 @@ struct MainView: View {
     @State private var selectedTab: TabSelection = .home
     @Binding var navigateToHome: Bool
     var body: some View {
-        
         NavigationStack {
             ZStack() {
                 Group {
@@ -44,8 +43,6 @@ struct MainView: View {
                 }
             }
         }
-        
-        
     }
 }
 

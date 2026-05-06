@@ -56,6 +56,6 @@ let introItems: [IntroItem] = [
           anchor: .bottomLeading,
           offset: -50,
           rotation: 250,
-         extraOffset: -100),
+          extraOffset: -100),
     
 ]

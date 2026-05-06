@@ -20,6 +20,4 @@ class HabitLocal {
         self.name = name
         self.habitDescription = description
     }
-    
-    
 }

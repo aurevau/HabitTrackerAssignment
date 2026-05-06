@@ -12,6 +12,8 @@ import FirebaseStorage
 import UIKit
 
 class UserRepositoryImpl {
+    private var db = Firestore.firestore()
+    
     func getUserDetails(userId: String) async throws -> User {
         let snapshot = try await db.collection("users")
             .document(userId)
@@ -19,14 +21,8 @@ class UserRepositoryImpl {
         
         return try snapshot.data(as: User.self)
     }
-    
-    
-    
-    private var db = Firestore.firestore()
+ 
     func saveUserToDatabase(username: String, email: String, profileImage: UIImage? = nil, userId: String) async throws {
-        
-        
-        
         var imageUrl: String? = nil
         if let image = profileImage {
             imageUrl = try await uploadProfileImage(image: image, userId: userId)
@@ -40,9 +36,9 @@ class UserRepositoryImpl {
     }
     
     func updateUserToDatabase(profileImage: UIImage? = nil, userId: String) async throws {
-      
+        
         if let image = profileImage {
-           let imageUrl = try await uploadProfileImage(image: image, userId: userId)
+            let imageUrl = try await uploadProfileImage(image: image, userId: userId)
             
             let data: [String: Any] = [
                 "profileImageUrl": imageUrl
@@ -55,7 +51,7 @@ class UserRepositoryImpl {
     }
     
     func uploadProfileImage(image: UIImage, userId: String) async throws -> String {
-        // Komprimera på background thread för att undvika freeze 
+        // Komprimera på background thread för att undvika freeze
         let imageData = await Task.detached(priority: .userInitiated) {
             return image.jpegData(compressionQuality: 0.7)
         }.value
@@ -76,16 +72,4 @@ class UserRepositoryImpl {
         
         return url.absoluteString
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 }

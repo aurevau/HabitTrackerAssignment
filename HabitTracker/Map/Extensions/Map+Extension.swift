@@ -14,13 +14,12 @@ extension CLLocationUpdate {
                 return location
             }
         }
-        return nil 
+        return nil
     }
 }
 
 
 extension MapView {
-    
     func image(for location: Location, habits: [Habit]) -> String? {
         guard let habit = habits.first(where: { habit in
             habit.locations.contains { $0.id == location.id }

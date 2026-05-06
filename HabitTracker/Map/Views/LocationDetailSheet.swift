@@ -13,8 +13,6 @@ struct LocationDetailSheet: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            
-            
             if let urlString = habitImage,
                let url = URL(string: urlString) {
                 AsyncImage(url: url) { phase in
@@ -49,7 +47,7 @@ struct LocationDetailSheet: View {
         .padding()
         .presentationDetents([.fraction(0.5)])
         .presentationDragIndicator(.visible)
-        .presentationBackgroundInteraction(.enabled) 
+        .presentationBackgroundInteraction(.enabled)
     }
     
     
