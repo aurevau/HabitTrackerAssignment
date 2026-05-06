@@ -49,14 +49,18 @@ struct HomeView: View {
                 
                 List {
                     if authViewModel.authState == .guest {
-                        ForEach(habitLocalViewModel.habits) {habit in
-                            LocalHabitRow(habit: habit)
-                        }
-                        .onDelete {indexSet in
-                            indexSet.forEach {index in
-                                habitLocalViewModel.deleteHabit(habitLocalViewModel.habits[index])
-                            }
+                        if habitLocalViewModel.habits.isEmpty {
                             
+                        } else {
+                            ForEach(habitLocalViewModel.habits) {habit in
+                                LocalHabitRow(habit: habit)
+                            }
+                            .onDelete {indexSet in
+                                indexSet.forEach {index in
+                                    habitLocalViewModel.deleteHabit(habitLocalViewModel.habits[index])
+                                }
+                                
+                            }
                         }
                     }
                     else {
