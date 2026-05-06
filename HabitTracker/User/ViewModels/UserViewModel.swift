@@ -11,11 +11,9 @@ import UIKit
 
 @Observable
 class UserViewModel {
-    
     private var userRepo = UserRepositoryImpl()
     
     var errorMessage = ""
-    
     var currentUser: User?
     
     func getUserDetails(userId: String) async  {
@@ -49,6 +47,4 @@ class UserViewModel {
             errorMessage = error.localizedDescription
         }
     }
-    
-    
 }

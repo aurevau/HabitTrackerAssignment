@@ -25,10 +25,8 @@ struct MapView: View {
         }
     }
     var body: some View {
-        
         Map(position: $position) {
             UserAnnotation()
-            
             ForEach(locations) {location in
                 Annotation(location.name, coordinate: CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)) {
                     ZStack {
@@ -51,16 +49,13 @@ struct MapView: View {
                                 .foregroundStyle(.primaryText)
                                 .fontWeight(.bold)
                         }
-                        
                     }
                     .onTapGesture {
                         // Du kan bara se detaljer som inloggad användare
                         if authViewModel.authState != .guest {
                             selectedLocation = location
                         }
-                        
                     }
-                    
                 }
             }
         }
@@ -72,10 +67,7 @@ struct MapView: View {
             if let habit = habit(for: location, habits: habitViewModel.habits) {
                 LocationDetailSheet(location: location, habit: habit)
             }
-            
         }
-        
-        
     }
     
 }

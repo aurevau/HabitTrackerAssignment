@@ -13,9 +13,7 @@ struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(UserViewModel.self) private var userViewModel
     
-    
     @State private var notificationDate: Date = Date()
-    
     @AppStorage("isNotificationAuhtorized") var isNotificationAuthorized = false
     
     var body: some View {
@@ -56,15 +54,12 @@ struct SettingsView: View {
                             sendNotification(date: newDate)
                         }
                 }
-                
                 Spacer()
-                
             }
             
             
             
             VStack {
-                
                 Button {
                     authViewModel.logOut()
                     dismiss()
@@ -83,11 +78,7 @@ struct SettingsView: View {
         .onReceive(NotificationCenter.default.publisher(for: .navigateToHome)) { _ in
             dismiss()
         }
-        
     }
-    
-    
-    
 }
 
 #Preview {

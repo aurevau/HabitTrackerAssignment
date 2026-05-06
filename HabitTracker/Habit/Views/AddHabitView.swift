@@ -22,8 +22,6 @@ struct AddHabitView: View {
     }
     
     var body: some View {
-        
-        
         NavigationStack {
             ZStack {
                 VStack(spacing: 12) {

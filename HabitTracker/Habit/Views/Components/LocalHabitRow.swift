@@ -24,15 +24,12 @@ struct LocalHabitRow: View {
                     .foregroundStyle(habit.isCompletedToday ? .green : .primaryText)
             }
             
-            
-            
             VStack(alignment: .leading){
                 Text(habit.name)
                     .fontWeight(.semibold)
                 
                 Text(habit.habitDescription)
                     .font(.caption)
-                
             }
             .foregroundColor(.primaryText)
             

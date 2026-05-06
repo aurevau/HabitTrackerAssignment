@@ -38,11 +38,11 @@ class AuthViewModel {
         
         if hasSeenIntro {
             authState = authRepo.isUserSignedIn() ? .loggedIn : .loggedOut
-
+            
         } else {
             authState = .firstTimeUser
         }
-     
+        
         
     }
     
@@ -149,8 +149,5 @@ class AuthViewModel {
         
         return true
     }
-    
-    
-    
     
 }

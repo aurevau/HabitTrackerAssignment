@@ -16,8 +16,6 @@ class HabitLocalViewModel {
     var modelContainer: ModelContainer? = nil
     
     var habits: [HabitLocal] = []
-    
-    
     var errorMessage = ""
     
     @MainActor

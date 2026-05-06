@@ -8,9 +8,9 @@
 import UserNotifications
 
 extension SettingsView {
- 
-    func sendNotification(date: Date) {
     
+    func sendNotification(date: Date) {
+        
         let content = UNMutableNotificationContent()
         content.title = "Habit Tracker"
         content.subtitle = "Har du genomför dagens vanor?"
