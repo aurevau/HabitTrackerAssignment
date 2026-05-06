@@ -13,6 +13,7 @@ struct ProfileView: View {
     @Environment(\.dismiss) private var dismiss
     
     @Environment(UserViewModel.self) private var userViewModel
+    @Environment(HabitLocalViewModel.self) private var habitLocalViewModel
     
     @State private var showLoginSheet: Bool = false
     
@@ -43,6 +44,16 @@ struct ProfileView: View {
                 .sheet(isPresented: $showLoginSheet) {
                     LoginView()
                 }
+                
+                
+                Button {
+                    habitLocalViewModel.resetLocalDatabase()
+                } label: {
+                    Text("Rensa lokal databas")
+                }
+                .foregroundStyle(.red)
+                
+                
             } else {
                 VStack() {
                     
