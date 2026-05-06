@@ -113,7 +113,7 @@ struct RegisterView: View {
                         
                         guard authViewModel.registerSuccess else { return }
                         
-                        await userViewModel.saveUserToDatabase(username: authViewModel.username, email: authViewModel.email, profileImage: selectedImage)
+                        await userViewModel.saveUserToDatabase(username: authViewModel.username, email: authViewModel.email, profileImage: selectedImage, userId: authViewModel.currentUserId)
                     }
                     
                     

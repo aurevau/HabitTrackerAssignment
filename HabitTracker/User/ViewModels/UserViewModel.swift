@@ -29,12 +29,13 @@ class UserViewModel {
         }
     }
     
-    func saveUserToDatabase(username: String, email: String, profileImage: UIImage? = nil) async {
+    func saveUserToDatabase(username: String, email: String, profileImage: UIImage? = nil, userId: String) async {
         do {
             try await userRepo.saveUserToDatabase(
                 username: username,
                 email: email,
-                profileImage: profileImage
+                profileImage: profileImage,
+                userId: userId
             )
         } catch {
             errorMessage = error.localizedDescription
