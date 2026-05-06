@@ -54,7 +54,11 @@ struct MapView: View {
                         
                     }
                     .onTapGesture {
-                        selectedLocation = location
+                        // Du kan bara se detaljer som inloggad användare
+                        if authViewModel.authState != .guest {
+                            selectedLocation = location
+                        }
+                        
                     }
                     
                 }
