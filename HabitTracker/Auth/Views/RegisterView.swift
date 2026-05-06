@@ -31,7 +31,7 @@ struct RegisterView: View {
                 if let selectedImage = selectedImage {
                     Image(uiImage: selectedImage)
                         .resizable()
-                        .scaledToFit()
+                        .scaledToFill()
                         .frame(maxWidth: 200)
                         .clipShape(Circle())
                 } else {
