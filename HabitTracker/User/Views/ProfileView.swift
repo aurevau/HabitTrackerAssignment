@@ -28,7 +28,7 @@ struct ProfileView: View {
         
         NavigationStack {
             if authViewModel.authState == .guest {
-                VStack {
+                VStack(spacing: 12) {
                     Text("Du är inloggad som gäst")
                         .font(.headline)
                         .foregroundColor(.primaryText)
@@ -40,20 +40,23 @@ struct ProfileView: View {
                         Text("Skapa konto eller logga in")
                     }
                     .modifier(ButtonModifier())
+                    
+               
+                    Button {
+                        habitLocalViewModel.resetLocalDatabase()
+                        authViewModel.authState = .firstTimeUser
+                    } label: {
+                        Text("Rensa lokal databas")
+                            .foregroundColor(.red)
+                    }
+                    .modifier(OutlineButtonModifier())
                 }
                 .sheet(isPresented: $showLoginSheet) {
                     LoginView()
                 }
                 
                 
-                Button {
-                    habitLocalViewModel.resetLocalDatabase()
-                } label: {
-                    Text("Rensa lokal databas")
-                }
-                .foregroundStyle(.red)
-                
-                
+            
             } else {
                 VStack() {
                     
