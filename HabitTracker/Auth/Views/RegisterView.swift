@@ -56,9 +56,6 @@ struct RegisterView: View {
                     }
                     
                 }
-                
-                
-                
                 TextField("", text: $authVm.username,
                           prompt: Text("Username ").foregroundColor(.gray))
                 .autocapitalization(.none)
