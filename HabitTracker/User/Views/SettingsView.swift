@@ -11,6 +11,7 @@ import UserNotifications
 struct SettingsView: View {
     @Environment(AuthViewModel.self) private var authViewModel
     @Environment(\.dismiss) private var dismiss
+    @Environment(UserViewModel.self) private var userViewModel
     
     
     @State private var notificationDate: Date = Date()
@@ -57,6 +58,13 @@ struct SettingsView: View {
                 }
                 
                 Spacer()
+                
+            }
+            
+            
+            
+            VStack {
+                
                 Button {
                     authViewModel.logOut()
                     dismiss()
