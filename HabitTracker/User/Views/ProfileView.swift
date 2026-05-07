@@ -40,16 +40,6 @@ struct ProfileView: View {
                         Text("Skapa konto eller logga in")
                     }
                     .modifier(ButtonModifier())
-                    
-               
-                    Button {
-                        habitLocalViewModel.resetLocalDatabase()
-                        authViewModel.authState = .firstTimeUser
-                    } label: {
-                        Text("Rensa lokal databas")
-                            .foregroundColor(.red)
-                    }
-                    .modifier(OutlineButtonModifier())
                 }
                 .sheet(isPresented: $showLoginSheet) {
                     LoginView()
