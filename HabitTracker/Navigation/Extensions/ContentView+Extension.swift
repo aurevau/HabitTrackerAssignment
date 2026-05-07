@@ -17,11 +17,15 @@ extension ContentView {
         
         await habitViewModel.migrateLocalHabits(localHabits: localHabits, userId: userId)
 
-        if habitViewModel.errorMessage == nil {
+        if habitViewModel.errorMessage?.isEmpty == true {
             for habit in localHabits {
                 habitLocalViewModel.deleteHabit(habit)
             }
+            print("Raderade \(localHabits.count) lokala habits")
+
         } else {
+            print("Migrering misslyckades: \(habitViewModel.errorMessage ?? "Okänt fel")")
+
         }
     }
 }
