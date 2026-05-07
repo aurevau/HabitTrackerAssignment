@@ -17,9 +17,9 @@ struct HomeView: View {
     
     
     
+    
     var body: some View {
         NavigationStack {
-            
             VStack {
                 HStack() {
                     VStack(alignment: .leading) {
@@ -28,17 +28,26 @@ struct HomeView: View {
                             .font(.title2)
                             .fontWeight(.bold)
                         
-                        if let user = userViewModel.currentUser {
+                        if authViewModel.authState == .guest {
+                            Text("GÄST")
+                                .font(.largeTitle)
+                                .fontWeight(.bold)
+                                .foregroundStyle(.primaryText)
+                        } else if let user = userViewModel.currentUser {
                             Text(user.username.uppercased())
                                 .font(.largeTitle)
                                 .fontWeight(.bold)
                                 .foregroundStyle(.primaryText)
                         }
                         
+                        
                         if authViewModel.authState == .guest {
                             LocalWeekView(habits: habitLocalViewModel.habits)
+                            
                         } else {
+
                             WeekView(habits: habitViewModel.habits)
+                            
                         }
                     }
                     Spacer()
@@ -91,28 +100,29 @@ struct HomeView: View {
                     }
                 }
             }
-            
-            
-            
-            
-            
-            
-            
-            
         }
         .task {
-            if authViewModel.authState != .guest {
-                await habitViewModel.loadHabits(userId: authViewModel.currentUserId)
-                
-                await userViewModel.getUserDetails(userId: authViewModel.currentUserId)
-            }
+            await loadData()
         }
         .refreshable {
-            if authViewModel.authState != .guest {
-                await habitViewModel.loadHabits(userId: authViewModel.currentUserId)
+           await loadData()
+        }
+        .onChange(of: authViewModel.authState) {_, _ in
+            Task {
+                await loadData()
             }
+
         }
         
+    }
+    
+    func loadData() async {
+        if authViewModel.authState == .guest {
+            habitLocalViewModel.queryHabits()
+        } else {
+            await habitViewModel.loadHabits(userId: authViewModel.currentUserId)
+            await userViewModel.getUserDetails(userId: authViewModel.currentUserId)
+        }
     }
     
 }
