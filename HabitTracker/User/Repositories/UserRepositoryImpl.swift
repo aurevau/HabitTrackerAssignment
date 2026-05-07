@@ -15,6 +15,9 @@ class UserRepositoryImpl {
     private var db = Firestore.firestore()
     
     func getUserDetails(userId: String) async throws -> User {
+        guard !userId.isEmpty else {
+            throw NSError(domain: "InvalidUserId", code: 0)
+        }
         let snapshot = try await db.collection("users")
             .document(userId)
             .getDocument()

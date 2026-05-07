@@ -122,10 +122,6 @@ class HabitLocalViewModel {
         }
     }
     
-    func resetLocalDatabase() {
-        modelContext?.container.deleteAllData()
-        
-        UserDefaults.standard.removeObject(forKey: "hasSeenIntro")
-    }
+    
     
 }

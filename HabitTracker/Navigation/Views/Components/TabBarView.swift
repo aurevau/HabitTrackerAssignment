@@ -57,7 +57,7 @@ struct TabBarView: View {
                 Button {
                     selectedTab = .profile
                 } label: {
-                    Image(systemName: selectedTab == .profile ? "person.fill" : "person.circle")
+                    Image(systemName: selectedTab == .profile ? "person.fill" : "person")
                         .frame(width: 44, height: 44)
                 }
             }

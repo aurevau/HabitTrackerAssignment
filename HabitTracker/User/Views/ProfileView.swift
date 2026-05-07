@@ -28,7 +28,7 @@ struct ProfileView: View {
         
         NavigationStack {
             if authViewModel.authState == .guest {
-                VStack {
+                VStack(spacing: 12) {
                     Text("Du är inloggad som gäst")
                         .font(.headline)
                         .foregroundColor(.primaryText)
@@ -46,14 +46,7 @@ struct ProfileView: View {
                 }
                 
                 
-                Button {
-                    habitLocalViewModel.resetLocalDatabase()
-                } label: {
-                    Text("Rensa lokal databas")
-                }
-                .foregroundStyle(.red)
-                
-                
+            
             } else {
                 VStack() {
                     
