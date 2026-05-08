@@ -45,16 +45,18 @@ struct RegisterView: View {
                             .modifier(ButtonModifier())
                     }
                     .disabled(selectedImage != nil)
-                    .onChange(of: selectedItem) { _,  newItem in
+                    .onChange(of: selectedItem) { _, newItem in
                         if let newItem = newItem {
                             Task {
-                                if let data = try? await newItem.loadTransferable(type: Data.self),
-                                   let image = UIImage(data: data) {
-                                    selectedImage = image
+                                guard let data = try? await newItem.loadTransferable(type: Data.self) else { return }
+                                let image = await Task.detached(priority: .userInitiated) {
+                                    return UIImage(data: data)
+                                }.value
+                                if let image {
+                                    await MainActor.run { selectedImage = image }
                                 }
                             }
                         }
-                        
                     }
                     TextField("", text: $authVm.username,
                               prompt: Text("Username ").foregroundColor(.gray))
