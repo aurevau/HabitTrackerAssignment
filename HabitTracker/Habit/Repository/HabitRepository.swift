@@ -130,15 +130,23 @@ class HabitRepository {
     }
     
     func migrateLocalHabits(localHabits: [HabitLocal], userId: String) async throws {
-        for localHabit in localHabits {
-            let firebaseHabit = Habit(id: UUID().uuidString, name: localHabit.name, description: localHabit.habitDescription, completedDates: localHabit.completedDates)
-            
-            try await saveHabit(userId: userId, habit: firebaseHabit)
+        try await withThrowingTaskGroup(of: Void.self) { group in
+            for localHabit in localHabits {
+                group.addTask {
+                    let firebaseHabit = Habit(id: UUID().uuidString, name: localHabit.name, description: localHabit.habitDescription, completedDates: localHabit.completedDates)
+                    try await self.saveHabit(userId: userId, habit: firebaseHabit)
+                }
+            }
+            try await group.waitForAll()
         }
     }
     
     func uploadHabitPicture(image: UIImage, userId: String, habitId: String) async throws -> String {
-        guard let imageData = image.jpegData(compressionQuality: 0.8) else {
+        let imageData = await Task.detached(priority: .userInitiated) {
+            return image.jpegData(compressionQuality: 0.8)
+        }.value
+
+        guard let imageData = imageData else {
             throw URLError(.badServerResponse)
         }
         let filename = UUID().uuidString
