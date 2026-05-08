@@ -24,7 +24,7 @@ class UserRepositoryImpl {
         
         return try snapshot.data(as: User.self)
     }
- 
+    
     func saveUserToDatabase(username: String, email: String, profileImage: UIImage? = nil, userId: String) async throws {
         var imageUrl: String? = nil
         if let image = profileImage {
@@ -52,25 +52,34 @@ class UserRepositoryImpl {
                 .setData(data, merge: true)
         }
     }
-    
     func uploadProfileImage(image: UIImage, userId: String) async throws -> String {
-        // Komprimera på background thread för att undvika freeze
         let imageData = await Task.detached(priority: .userInitiated) {
-            return image.jpegData(compressionQuality: 0.7)
+            let maxSize: CGFloat = 400
+            let scale = min(maxSize / image.size.width, maxSize / image.size.height, 1.0)
+            
+            if scale < 1.0 {
+                let newSize = CGSize(
+                    width: image.size.width * scale,
+                    height: image.size.height * scale
+                )
+                
+                let renderer = UIGraphicsImageRenderer(size: newSize)
+                let resized = renderer.image { _ in
+                    image.draw(in: CGRect(origin: .zero, size: newSize))
+                }
+                return resized.jpegData(compressionQuality: 0.5)
+            }
+            
+            return image.jpegData(compressionQuality: 0.5)
         }.value
         
         guard let imageData = imageData else {
-            throw NSError(domain: "ImageError", code: -1, userInfo: [
-                NSLocalizedDescriptionKey: "Failed to convert image to JPEG"
-            ])
+            throw NSError(domain: "ImageError", code: -1)
         }
-        
-        print("Image compressed: \(imageData.count) bytes")
         
         let ref = Storage.storage().reference().child("profile_images/\(userId).jpg")
         
         _ = try await ref.putDataAsync(imageData)
-        
         let url = try await ref.downloadURL()
         
         return url.absoluteString
