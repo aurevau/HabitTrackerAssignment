@@ -79,7 +79,6 @@ class AuthViewModel {
         isLoading = true
         do {
             let _ = try await authRepo.register(email: email, password: password, username: username)
-            authState = .loggedIn
             registerSuccess = true
             
         } catch {
