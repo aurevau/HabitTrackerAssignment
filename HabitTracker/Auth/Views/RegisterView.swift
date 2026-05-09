@@ -16,6 +16,8 @@ struct RegisterView: View {
     
     @State private var selectedImage: UIImage?
     
+    @State private var uploadProgress: String = ""
+    
     var body: some View {
         
         @Bindable var authVm = authViewModel
@@ -107,20 +109,41 @@ struct RegisterView: View {
                     
                     Button {
                         
-                        Task {
+                        Task { @MainActor in
+                            uploadProgress = "Skapar konto..."
                             await authViewModel.register()
                             
-                            guard authViewModel.registerSuccess else { return }
+                            guard authViewModel.registerSuccess else {
+                                uploadProgress = ""
+                                return }
                             
-                            await userViewModel.saveUserToDatabase(username: authViewModel.username, email: authViewModel.email, profileImage: selectedImage, userId: authViewModel.currentUserId)
+                            if selectedImage != nil {
+                                uploadProgress = "Laddar upp profilbild"
+                            } else {
+                                uploadProgress = "Sparar användaren"
+                            }
+                            
+                            Task.detached {
+                                await userViewModel.saveUserToDatabase(username: authViewModel.username, email: authViewModel.email, profileImage: selectedImage, userId: authViewModel.currentUserId)
+                                
+                                uploadProgress = "Färdigställer..."
+                                await MainActor.run {
+                                    authViewModel.authState = .loggedIn
+                                    uploadProgress = ""
+                                }
+                            }
+                            
                         }
                         
-                        
                     } label: {
-                        if authViewModel.isLoading {
-                            ProgressView()
-                                .tint(.primaryText)
-                                .modifier(ButtonModifier())
+                        if !uploadProgress.isEmpty {
+                            VStack {
+                                ProgressView()
+                                Text(uploadProgress)
+                                    .font(.caption)
+                                  
+                            }
+                           
                         } else {
                             Text("Skapa konto")
                                 .modifier(ButtonModifier())

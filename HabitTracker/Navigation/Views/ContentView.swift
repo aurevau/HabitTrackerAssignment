@@ -55,7 +55,11 @@ struct ContentView: View {
             if oldValue == .guest && newValue == .loggedIn && !hasMigrated {
                 Task.detached {
                     await migrateHabitsToFirebase(habitLocalViewModel: habitLocalViewModel, userId: authViewModel.currentUserId, habitViewModel: habitViewModel)
-                    await MainActor.run { hasMigrated = true }
+                    
+                    await MainActor.run {
+                        hasMigrated = true
+                    }
+                
                 }
             }
             if newValue == .loggedOut || newValue == .guest {
