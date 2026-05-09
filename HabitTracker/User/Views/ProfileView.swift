@@ -116,23 +116,26 @@ struct ProfileView: View {
                     }
                     .onChange(of: selectedItem) {_, newItem in
                         guard let newItem = newItem else { return }
-                        
-                        Task { @MainActor in
-                            guard let data = try? await newItem.loadTransferable(type: Data.self),
-                                  let image = UIImage(data: data) else { return }
-                            
-                            selectedImage = image
+
+                        Task {
+                            guard let data = try? await newItem.loadTransferable(type: Data.self) else { return }
+                            let image = await Task.detached(priority: .userInitiated) {
+                                return UIImage(data: data)
+                            }.value
+                            guard let image else { return }
+                            await MainActor.run { selectedImage = image }
                         }
                     }
                     
                     if selectedImage != nil {
                         Button {
                             guard let image = selectedImage else { return }
-                            
+
                             Task {
                                 isUploading = true
+                                defer { isUploading = false }
                                 await userViewModel.updateUserToDatabase(profileImage: image, userId: authViewModel.currentUserId)
-                                
+
                                 if userViewModel.errorMessage.isEmpty {
                                     print("upload succesfull")
                                     await userViewModel.getUserDetails(userId: authViewModel.currentUserId)

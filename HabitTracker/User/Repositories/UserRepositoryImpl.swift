@@ -33,7 +33,7 @@ class UserRepositoryImpl {
         
         let newUser = User(id: userId, username: username, email: email, joined: Date().timeIntervalSince1970, profileImageUrl: imageUrl)
         
-        try db.collection("users")
+        try await db.collection("users")
             .document(userId)
             .setData(from: newUser)
     }
