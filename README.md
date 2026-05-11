@@ -19,7 +19,6 @@ https://github.com/user-attachments/assets/a258961f-66db-44a5-87c2-df99aaaae52c
 7. [Migration: Gäst → Inloggad](#migration-gäst--inloggad)
 8. [Datamodeller](#datamodeller)
 9. [Firebase-integration](#firebase-integration)
-10. [Komma igång](#komma-igång)
 11. [Notiser](#notiser)
 12. [Roadmap](#roadmap)
 13. [Författare & krediter](#författare--krediter)
