@@ -412,4 +412,3 @@ iOS-utvecklare under utbildning – **MAPP25** (Mobil Applikationsutveckling, 20
 
 ---
 
-> Byggt med ❤️ i Sverige – `HabitTracker` är ett kursprojekt med ambitionen att vara produktionsklart i framtiden.
