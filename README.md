@@ -2,14 +2,6 @@
 
 > En Habit Tracker applikation byggd i SwiftUI med **offline-first gästläge** och **sömlös molnsynkronisering** via Firebase. Skapa vanor, fota dina framsteg, se var i världen du genomför dem, allt utan att tvingas registrera dig först.
 
-![Swift](https://img.shields.io/badge/Swift-5.9+-orange?logo=swift&logoColor=white)
-![iOS](https://img.shields.io/badge/iOS-18+-blue?logo=apple&logoColor=white)
-![SwiftUI](https://img.shields.io/badge/SwiftUI-5.0-blue?logo=swift&logoColor=white)
-![SwiftData](https://img.shields.io/badge/SwiftData-Local-purple)
-![Firebase](https://img.shields.io/badge/Firebase-12.12.1-FFCA28?logo=firebase&logoColor=black)
-![Xcode](https://img.shields.io/badge/Xcode-15+-1575F9?logo=xcode&logoColor=white)
-![Architecture](https://img.shields.io/badge/Architecture-MVVM%20%2B%20Repository-success)
-
 ---
 
 ## App Preview
